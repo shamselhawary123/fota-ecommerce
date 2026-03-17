@@ -1,0 +1,524 @@
+<template>
+  <div class="min-h-screen bg-gray-100 py-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-3xl font-bold mb-8 text-gray-800">My Profile</h1>
+
+      <ClientOnly>
+        <!-- Profile Header -->
+        <div
+          class="relative overflow-hidden rounded-3xl shadow-lg mb-8 bg-gradient-to-r from-white via-gray-50 to-gray-100 border border-gray-200"
+        >
+          <!-- Decorative blur -->
+          <div
+            class="absolute -top-10 -right-10 w-40 h-40 bg-black/5 rounded-full blur-3xl"
+          ></div>
+          <div
+            class="absolute -bottom-10 -left-10 w-40 h-40 bg-gray-300/20 rounded-full blur-3xl"
+          ></div>
+
+          <div
+            class="relative p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+          >
+            <div
+              class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left"
+            >
+              <div class="flex flex-col items-center">
+                <img
+                  :src="
+                    isEditing
+                      ? avatarPreview || 'https://i.pravatar.cc/150?img=12'
+                      : userStore.user?.avatar ||
+                        'https://i.pravatar.cc/150?img=12'
+                  "
+                  alt="avatar"
+                  class="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
+                />
+
+                <div v-if="isEditing" class="mt-4 w-full max-w-[220px]">
+                  <label class="block text-sm font-medium text-gray-600 mb-2">
+                    Change Avatar
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    @change="handleAvatarChange"
+                    class="block w-full text-sm text-gray-600 file:mr-0 sm:file:mr-4 file:mb-2 sm:file:mb-0 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-black file:text-white hover:file:opacity-90"
+                  />
+                </div>
+              </div>
+
+              <div class="flex-1">
+                <h2
+                  class="text-2xl md:text-3xl font-bold text-gray-900 break-words"
+                >
+                  {{ userStore.user?.name }}
+                </h2>
+
+                <p class="text-gray-500 break-all mt-1 text-base">
+                  {{ userStore.user?.email }}
+                </p>
+
+                <div
+                  class="flex flex-wrap justify-center sm:justify-start gap-2 mt-4"
+                >
+                  <span
+                    class="px-4 py-1.5 rounded-full text-sm font-medium bg-black text-white shadow"
+                  >
+                    {{ userStore.user?.role }}
+                  </span>
+
+                  <span
+                    class="px-4 py-1.5 rounded-full text-sm font-medium bg-white text-gray-700 border border-gray-200 shadow-sm"
+                  >
+                    Joined:
+                    {{
+                      userStore.user?.joinDate
+                        ? new Date(userStore.user.joinDate).toLocaleDateString()
+                        : "N/A"
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row w-full lg:w-auto gap-3">
+              <button
+                v-if="!isEditing"
+                @click="isEditing = true"
+                class="bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition w-full sm:w-auto shadow"
+              >
+                Edit Profile
+              </button>
+
+              <button
+                @click="logout"
+                class="bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition w-full sm:w-auto shadow"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-white rounded-2xl shadow p-5">
+            <p class="text-sm text-gray-500">Total Orders</p>
+            <h3 class="text-2xl font-bold mt-2">{{ totalOrders }}</h3>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow p-5">
+            <p class="text-sm text-gray-500">Total Spent</p>
+            <h3 class="text-2xl font-bold mt-2">{{ totalSpent }} EGP</h3>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow p-5">
+            <p class="text-sm text-gray-500">Pending Orders</p>
+            <h3 class="text-2xl font-bold mt-2 text-yellow-500">
+              {{ pendingCount }}
+            </h3>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow p-5">
+            <p class="text-sm text-gray-500">Delivered Orders</p>
+            <h3 class="text-2xl font-bold mt-2 text-green-600">
+              {{ deliveredCount }}
+            </h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Left Side -->
+          <div class="lg:col-span-2 space-y-8">
+            <!-- Personal / Edit Info -->
+            <div class="bg-white rounded-2xl shadow p-6">
+              <h2 class="text-xl font-semibold mb-6 text-gray-800">
+                Account Information
+              </h2>
+
+              <!-- View Mode -->
+              <div v-if="!isEditing" class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <p class="text-sm text-gray-500">Full Name</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.name || "N/A" }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-500">Email</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.email || "N/A" }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-500">Phone</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.phone || "N/A" }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-500">Gender</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.gender || "N/A" }}
+                  </p>
+                </div>
+
+                <div class="md:col-span-2">
+                  <p class="text-sm text-gray-500">Bio</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.bio || "No bio added yet." }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Edit Mode -->
+              <div v-else class="space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                  <input
+                    v-model="editedName"
+                    type="text"
+                    placeholder="Full Name"
+                    class="w-full border rounded-xl px-4 py-3"
+                  />
+
+                  <input
+                    v-model="editedEmail"
+                    type="email"
+                    placeholder="Email"
+                    class="w-full border rounded-xl px-4 py-3"
+                  />
+
+                  <input
+                    v-model="editedPhone"
+                    type="text"
+                    placeholder="Phone Number"
+                    class="w-full border rounded-xl px-4 py-3"
+                  />
+
+                  <select
+                    v-model="editedGender"
+                    class="w-full border rounded-xl px-4 py-3"
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+
+                <textarea
+                  v-model="editedBio"
+                  rows="4"
+                  placeholder="Bio"
+                  class="w-full border rounded-xl px-4 py-3"
+                ></textarea>
+
+                <div class="flex gap-4">
+                  <button
+                    @click="saveChanges"
+                    class="bg-green-600 text-white px-5 py-2 rounded-xl hover:bg-green-700 transition"
+                  >
+                    Save
+                  </button>
+
+                  <button
+                    @click="cancelEdit"
+                    class="bg-gray-400 text-white px-5 py-2 rounded-xl hover:bg-gray-500 transition"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="bg-white rounded-2xl shadow p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Recent Orders</h2>
+
+                <NuxtLink
+                  to="/orders"
+                  class="text-sm text-black font-medium hover:underline"
+                >
+                  View All
+                </NuxtLink>
+              </div>
+
+              <div v-if="recentOrders.length > 0" class="space-y-4">
+                <div
+                  v-for="order in recentOrders"
+                  :key="order.id"
+                  class="border rounded-2xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 hover:shadow-sm transition"
+                >
+                  <div>
+                    <p class="font-medium text-gray-800">
+                      {{
+                        order.items?.map((item) => item.title).join(" & ") ||
+                        "No product name"
+                      }}
+                    </p>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                      Order# {{ order.id }}
+                    </p>
+
+                    <p class="text-sm text-gray-400 mt-1">
+                      {{ order.created_at }}
+                    </p>
+                  </div>
+
+                  <div class="text-right">
+                    <p class="font-semibold text-lg">{{ order.total }} EGP</p>
+                    <span
+                      class="inline-block mt-2 px-3 py-1 rounded-full text-sm"
+                      :class="statusColor(order.status)"
+                    >
+                      {{ order.status }}
+                    </span>
+                    <span
+                      class="inline-block mt-2 px-3 py-1 rounded-full text-sm"
+                      :class="paymentStatusColor(order.payment_status)"
+                    >
+                      {{ order.payment_status }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div v-else class="text-gray-500 text-center py-6">
+                You have no orders yet.
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side -->
+          <div class="space-y-8">
+            <!-- Shipping Info -->
+            <div class="bg-white rounded-2xl shadow p-6">
+              <h2 class="text-xl font-semibold mb-6 text-gray-800">
+                Shipping Information
+              </h2>
+
+              <div v-if="!isEditing" class="space-y-4">
+                <div>
+                  <p class="text-sm text-gray-500">Address</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.address || "N/A" }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-500">City</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.city || "N/A" }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-500">Country</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.country || "N/A" }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-sm text-gray-500">Postal Code</p>
+                  <p class="font-medium text-gray-800">
+                    {{ userStore.user?.postalCode || "N/A" }}
+                  </p>
+                </div>
+              </div>
+
+              <div v-else class="space-y-4">
+                <input
+                  v-model="editedAddress"
+                  type="text"
+                  placeholder="Address"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+                <input
+                  v-model="editedCity"
+                  type="text"
+                  placeholder="City"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+                <input
+                  v-model="editedCountry"
+                  type="text"
+                  placeholder="Country"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+                <input
+                  v-model="editedPostalCode"
+                  type="text"
+                  placeholder="Postal Code"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ClientOnly>
+    </div>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({
+  middleware: "auth",
+});
+
+import { ref, computed, onMounted } from "vue";
+import { useUserStore } from "~/stores/auth";
+import { useOrdersStore } from "~/stores/orders";
+
+const userStore = useUserStore();
+const ordersStore = useOrdersStore();
+
+const isEditing = ref(false);
+
+const editedName = ref(userStore.user?.name || "");
+const editedEmail = ref(userStore.user?.email || "");
+const editedPhone = ref(userStore.user?.phone || "");
+const editedGender = ref(userStore.user?.gender || "");
+const editedBio = ref(userStore.user?.bio || "");
+const editedAddress = ref(userStore.user?.address || "");
+const editedCity = ref(userStore.user?.city || "");
+const editedCountry = ref(userStore.user?.country || "");
+const editedPostalCode = ref(userStore.user?.postalCode || "");
+
+const editedAvatar = ref(userStore.user?.avatar || "");
+const avatarPreview = ref(userStore.user?.avatar || "");
+
+const handleAvatarChange = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    editedAvatar.value = reader.result;
+    avatarPreview.value = reader.result;
+  };
+
+  reader.readAsDataURL(file);
+};
+const saveChanges = async () => {
+  await userStore.updateProfile({
+    name: editedName.value,
+    email: editedEmail.value,
+    phone: editedPhone.value,
+    gender: editedGender.value,
+    bio: editedBio.value,
+    address: editedAddress.value,
+    city: editedCity.value,
+    country: editedCountry.value,
+    postalCode: editedPostalCode.value,
+    avatar: editedAvatar.value,
+  });
+
+  isEditing.value = false;
+};
+
+const cancelEdit = () => {
+  editedName.value = userStore.user?.name || "";
+  editedEmail.value = userStore.user?.email || "";
+  editedPhone.value = userStore.user?.phone || "";
+  editedGender.value = userStore.user?.gender || "";
+  editedBio.value = userStore.user?.bio || "";
+  editedAddress.value = userStore.user?.address || "";
+  editedCity.value = userStore.user?.city || "";
+  editedCountry.value = userStore.user?.country || "";
+  editedPostalCode.value = userStore.user?.postalCode || "";
+  editedAvatar.value = userStore.user?.avatar || "";
+  avatarPreview.value = userStore.user?.avatar || "";
+
+  isEditing.value = false;
+};
+const logout = () => {
+  userStore.logout();
+  navigateTo("/");
+};
+
+const recentOrders = computed(() => {
+  const userId = userStore.user?.id;
+  if (!userId) return [];
+
+  const allOrders = ordersStore.getUserOrders(userId) || [];
+  return allOrders.slice(0, 3);
+});
+
+const totalOrders = computed(() => {
+  const userId = userStore.user?.id;
+  if (!userId) return 0;
+  return ordersStore.getUserOrders(userId).length;
+});
+
+const totalSpent = computed(() => {
+  const userId = userStore.user?.id;
+  if (!userId) return 0;
+
+  return ordersStore
+    .getUserOrders(userId)
+    .reduce((sum, order) => sum + order.total, 0);
+});
+
+const pendingCount = computed(() => {
+  const userId = userStore.user?.id;
+  if (!userId) return 0;
+
+  return ordersStore
+    .getUserOrders(userId)
+    .filter((order) => order.status === "pending").length;
+});
+
+const deliveredCount = computed(() => {
+  const userId = userStore.user?.id;
+  if (!userId) return 0;
+
+  return ordersStore
+    .getUserOrders(userId)
+    .filter((order) => order.status === "delivered").length;
+});
+
+const statusColor = (status) => {
+  switch (status) {
+    case "pending":
+      return "bg-yellow-100 text-yellow-700";
+    case "confirmed":
+      return "bg-blue-100 text-blue-700";
+    case "shipped":
+      return "bg-purple-100 text-purple-700";
+    case "delivered":
+      return "bg-green-100 text-green-700";
+    case "cancelled":
+      return "bg-red-100 text-red-700";
+    default:
+      return "bg-gray-100 text-gray-600";
+  }
+};
+
+const paymentStatusColor = (status) => {
+  switch (status) {
+    case "paid":
+      return "bg-green-100 text-green-700";
+    case "unpaid":
+      return "bg-red-100 text-red-700";
+    case "pending":
+      return "bg-yellow-100 text-yellow-700";
+    case "failed":
+      return "bg-red-100 text-red-700";
+    case "refunded":
+      return "bg-blue-100 text-blue-700";
+    default:
+      return "bg-gray-100 text-gray-600";
+  }
+};
+onMounted(async () => {
+  await ordersStore.fetchOrders();
+});
+</script>
