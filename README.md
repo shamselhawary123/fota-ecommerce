@@ -1,75 +1,198 @@
-# Nuxt Minimal Starter
+🛍️ Fota Store – Full Stack E-commerce App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Fota Store is a modern full-stack e-commerce web application built with Nuxt 3, Vue 3, Pinia, Tailwind CSS, and Supabase.
+It provides a complete shopping experience with authentication, admin dashboard, product management, cart system, and order processing.
 
-## Setup
+🚀 Live Demo
 
-Make sure to install dependencies:
+👉 (ضيف هنا اللينك بتاع الموقع بعد ما ترفعه)
+👉 https://your-live-demo-link.com
 
-```bash
-# npm
+📦 Tech Stack
+
+Frontend: Nuxt 3, Vue 3 (Composition API)
+
+State Management: Pinia
+
+Styling: Tailwind CSS
+
+Backend & Database: Supabase
+
+Authentication: Supabase Auth (OTP / Email Verification)
+
+Deployment: Vercel / Netlify
+
+✨ Features
+👤 Authentication
+
+User registration with email verification (OTP)
+
+Login / Logout
+
+Persistent sessions
+
+Role-based access (Admin / User)
+
+🛍️ Products System
+
+View all products
+
+Search & filter by category
+
+Pagination system
+
+Product details page
+
+📦 Admin Dashboard
+
+Add / Edit / Delete products
+
+Upload product images
+
+Manage stock (inventory)
+
+Add product discounts (%)
+
+Update product availability (In Stock / Sold Out)
+
+💸 Discounts System
+
+Set discount percentage per product
+
+Show:
+
+Original price (strikethrough)
+
+Discounted price
+
+Discount badge (e.g. 10% OFF)
+
+Automatically applied in:
+
+Product page
+
+Cart
+
+Checkout
+
+🛒 Cart System
+
+Add / remove items
+
+Quantity control
+
+Stock validation
+
+Persistent cart (local storage per user)
+
+Dynamic pricing with discounts
+
+Total savings calculation
+
+💳 Checkout
+
+Shipping information form
+
+Order summary
+
+Cash on Delivery
+
+Order confirmation
+
+Stock reduction after purchase
+
+📦 Orders
+
+Save orders in database
+
+User can view their orders
+
+Admin can manage orders
+
+📱 Responsive Design
+
+Fully responsive UI
+
+Works on mobile, tablet, and desktop
+
+🧠 Advanced Logic Implemented
+
+Dynamic pricing with discount handling
+
+Cart synchronization with latest product data
+
+Inventory (stock) management
+
+Role-based route protection (403 handling)
+
+Error handling (404 / 403 pages)
+
+SSR hydration fixes
+
+📂 Project Structure
+/pages
+/components
+/stores
+/middleware
+/assets
+/public
+⚙️ Installation
+
+# Clone repo
+
+git clone https://github.com/your-username/fota-store.git
+
+# Enter project
+
+cd fota-store
+
+# Install dependencies
+
 npm install
 
-# pnpm
-pnpm install
+# Run dev server
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
 
-# pnpm
-pnpm dev
+👨‍💻 Admin Access
 
-# yarn
-yarn dev
+👉 Email: admin@test.com
 
-# bun
-bun run dev
-```
+👉 Password: 123456
 
-## Production
+🧪 Future Improvements
 
-Build the application for production:
+Online payments (Stripe / Paymob)
 
-```bash
-# npm
-npm run build
+Wishlist system
 
-# pnpm
-pnpm build
+Product reviews & ratings
 
-# yarn
-yarn build
+Order tracking
 
-# bun
-bun run build
-```
+Discount expiration dates
 
-Locally preview production build:
+Multi-language support
 
-```bash
-# npm
-npm run preview
+📌 Author
 
-# pnpm
-pnpm preview
+Your Name
+Frontend / Full Stack Developer
 
-# yarn
-yarn preview
+GitHub: https://github.com/shamselhawary123
 
-# bun
-bun run preview
-```
+LinkedIn: https://www.linkedin.com/in/shams-elhawary-849087268/
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+⭐ Notes
+
+This project was built as a portfolio-ready full-stack e-commerce system showcasing real-world development skills including:
+
+State management
+
+Authentication flows
+
+Admin systems
+
+Business logic implementation
+
+Clean UI/UX
