@@ -31,7 +31,7 @@
       <!-- Discount -->
       <span
         v-if="product.discount_percent > 0"
-        class="absolute bottom-4 left-4 bg-red-500 text-white text-lg px-3 py-1 rounded-full font-bold shadow"
+        class="absolute bottom-4 left-4 bg-red-500 text-white text-m px-3 py-1 rounded-full font-bold shadow"
       >
         {{ product.discount_percent }}% OFF
       </span>
@@ -65,9 +65,9 @@
         </p>
       </div>
 
-      <p class="mt-2 text-sm text-gray-500">
+      <!-- <p class="mt-2 text-sm text-gray-500">
         Available: {{ product.stock ?? 0 }}
-      </p>
+      </p> -->
 
       <NuxtLink
         :to="`/products/${product.id}`"

@@ -61,7 +61,7 @@
         <div class="hidden md:flex items-center gap-2">
           <ClientOnly>
             <NuxtLink
-              v-if="authStore.user?.role === 'user'"
+              v-if="authStore.user?.role !== 'admin'"
               to="/products"
               class="nav-link"
             >
@@ -80,7 +80,11 @@
           <NuxtLink to="/about" class="nav-link"> About </NuxtLink>
 
           <ClientOnly>
-            <NuxtLink to="/cart" class="nav-link relative">
+            <NuxtLink
+              v-if="authStore.user?.role !== 'admin'"
+              to="/cart"
+              class="nav-link relative"
+            >
               Cart
               <span
                 class="ml-2 inline-flex min-w-[24px] h-6 px-2 items-center justify-center text-white-800 text-xs font-bold"
@@ -141,7 +145,7 @@
         <div class="px-5 py-5 flex flex-col gap-3">
           <ClientOnly>
             <NuxtLink
-              v-if="authStore.user?.role === 'user'"
+              v-if="authStore.user?.role !== 'admin'"
               to="/products"
               class="mobile-link"
               @click="isMenuOpen = false"
@@ -165,6 +169,7 @@
 
           <ClientOnly>
             <NuxtLink
+              v-if="authStore.user?.role !== 'admin'"
               to="/cart"
               class="mobile-link"
               @click="isMenuOpen = false"

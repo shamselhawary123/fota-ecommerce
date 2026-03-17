@@ -35,10 +35,9 @@
 
       <!-- Controls -->
       <div class="bg-white rounded-3xl shadow p-4 md:p-6 mb-8">
-        <div
-          class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4"
-        >
-          <div class="w-full xl:max-w-md">
+        <div class="grid xl:grid-cols-3 gap-4">
+          <!-- Search -->
+          <div class="w-full">
             <label class="block text-sm font-medium text-gray-600 mb-2">
               Search by Order ID
             </label>
@@ -50,7 +49,25 @@
             />
           </div>
 
-          <div class="flex flex-wrap gap-3">
+          <!-- Date Filter -->
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-600 mb-2">
+              Filter by Time
+            </label>
+            <select
+              v-model="selectedDateFilter"
+              class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black bg-white"
+            >
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="7days">Last 7 Days</option>
+              <option value="30days">Last 30 Days</option>
+              <option value="thisMonth">This Month</option>
+            </select>
+          </div>
+
+          <!-- Status Pills -->
+          <div class="flex flex-wrap gap-3 items-end">
             <button
               v-for="status in statusFilters"
               :key="status.value"
@@ -273,6 +290,7 @@ const ordersStore = useOrdersStore();
 
 const isLoading = ref(true);
 const selectedStatus = ref("all");
+const selectedDateFilter = ref("all");
 const searchQuery = ref("");
 
 const orderStatusOptions = [
@@ -312,15 +330,53 @@ const allOrders = computed(() => {
 
 const filteredOrders = computed(() => {
   let orders = [...allOrders.value];
+  const now = new Date();
 
+  // Status filter
   if (selectedStatus.value !== "all") {
     orders = orders.filter((order) => order.status === selectedStatus.value);
   }
 
+  // Search filter
   if (searchQuery.value.trim()) {
     orders = orders.filter((order) =>
       String(order.id).toLowerCase().includes(searchQuery.value.toLowerCase()),
     );
+  }
+
+  // Date filter
+  if (selectedDateFilter.value !== "all") {
+    orders = orders.filter((order) => {
+      if (!order.created_at) return false;
+
+      const orderDate = new Date(order.created_at);
+
+      switch (selectedDateFilter.value) {
+        case "today":
+          return orderDate.toDateString() === now.toDateString();
+
+        case "7days": {
+          const sevenDaysAgo = new Date();
+          sevenDaysAgo.setDate(now.getDate() - 7);
+          return orderDate >= sevenDaysAgo;
+        }
+
+        case "30days": {
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(now.getDate() - 30);
+          return orderDate >= thirtyDaysAgo;
+        }
+
+        case "thisMonth":
+          return (
+            orderDate.getMonth() === now.getMonth() &&
+            orderDate.getFullYear() === now.getFullYear()
+          );
+
+        default:
+          return true;
+      }
+    });
   }
 
   return orders.sort(
@@ -330,22 +386,24 @@ const filteredOrders = computed(() => {
 });
 
 const totalOrders = computed(() => {
-  return allOrders.value.length;
+  return filteredOrders.value.length;
 });
 
 const totalRevenue = computed(() => {
-  return allOrders.value.reduce(
+  return filteredOrders.value.reduce(
     (sum, order) => sum + Number(order.total || 0),
     0,
   );
 });
 
 const pendingOrders = computed(() => {
-  return allOrders.value.filter((order) => order.status === "pending").length;
+  return filteredOrders.value.filter((order) => order.status === "pending")
+    .length;
 });
 
 const deliveredOrders = computed(() => {
-  return allOrders.value.filter((order) => order.status === "delivered").length;
+  return filteredOrders.value.filter((order) => order.status === "delivered")
+    .length;
 });
 
 const getItemsCount = (items) => {
