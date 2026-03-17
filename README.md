@@ -6,7 +6,7 @@ It provides a complete shopping experience with authentication, admin dashboard,
 🚀 Live Demo
 
 👉 (ضيف هنا اللينك بتاع الموقع بعد ما ترفعه)
-👉 https://your-live-demo-link.com
+👉 https://fota-store.vercel.app/
 
 📦 Tech Stack
 
@@ -140,7 +140,7 @@ SSR hydration fixes
 
 # Clone repo
 
-git clone https://github.com/your-username/fota-store.git
+git clone https://github.com/shamselhawary123/fota-ecommerce
 
 # Enter project
 
