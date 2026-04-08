@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-screen bg-gray-100 py-10">
     <div class="max-w-6xl mx-auto px-4">
-      <h1 class="text-3xl font-bold mb-8 text-gray-800">My Profile</h1>
+      <h1 class="text-3xl font-bold mb-8 text-gray-800">
+        {{ $t("profile.title") }}
+      </h1>
 
       <ClientOnly>
         <!-- Profile Header -->
@@ -20,7 +22,7 @@
             class="relative p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
           >
             <div
-              class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left"
+              class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-start"
             >
               <div class="flex flex-col items-center">
                 <img
@@ -30,19 +32,20 @@
                       : userStore.user?.avatar ||
                         'https://i.pravatar.cc/150?img=12'
                   "
-                  alt="avatar"
+                  alt="{{ $t('avatar.profile') }}"
                   class="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
                 />
 
                 <div v-if="isEditing" class="mt-4 w-full max-w-[220px]">
                   <label class="block text-sm font-medium text-gray-600 mb-2">
-                    Change Avatar
+                    {{ $t("profile.changeAvatar") }}
                   </label>
                   <input
                     type="file"
                     accept="image/*"
                     @change="handleAvatarChange"
-                    class="block w-full text-sm text-gray-600 file:mr-0 sm:file:mr-4 file:mb-2 sm:file:mb-0 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-black file:text-white hover:file:opacity-90"
+                    :placeholder="$t('avatar.upload')"
+                    class="block w-full text-sm text-gray-600 file:me-0 sm:file:me-4 file:mb-2 sm:file:mb-0 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-black file:text-white hover:file:opacity-90"
                   />
                 </div>
               </div>
@@ -70,7 +73,8 @@
                   <span
                     class="px-4 py-1.5 rounded-full text-sm font-medium bg-white text-gray-700 border border-gray-200 shadow-sm"
                   >
-                    Joined:
+                    {{ $t("profile.joined") }}:
+
                     {{
                       userStore.user?.joinDate
                         ? new Date(userStore.user.joinDate).toLocaleDateString()
@@ -87,14 +91,14 @@
                 @click="isEditing = true"
                 class="bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition w-full sm:w-auto shadow"
               >
-                Edit Profile
+                {{ $t("profile.edit") }}
               </button>
 
               <button
                 @click="logout"
                 class="bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition w-full sm:w-auto shadow"
               >
-                Logout
+                {{ $t("profile.logout") }}
               </button>
             </div>
           </div>
@@ -102,24 +106,28 @@
         <!-- Stats -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <div class="bg-white rounded-2xl shadow p-5">
-            <p class="text-sm text-gray-500">Total Orders</p>
+            <p class="text-sm text-gray-500">{{ $t("profile.totalOrders") }}</p>
             <h3 class="text-2xl font-bold mt-2">{{ totalOrders }}</h3>
           </div>
 
           <div class="bg-white rounded-2xl shadow p-5">
-            <p class="text-sm text-gray-500">Total Spent</p>
-            <h3 class="text-2xl font-bold mt-2">{{ totalSpent }} EGP</h3>
+            <p class="text-sm text-gray-500">{{ $t("profile.totalSpent") }}</p>
+            <h3 class="text-2xl font-bold mt-2">
+              {{ totalSpent }} {{ $t("cart.currency") }}
+            </h3>
           </div>
 
           <div class="bg-white rounded-2xl shadow p-5">
-            <p class="text-sm text-gray-500">Pending Orders</p>
+            <p class="text-sm text-gray-500">
+              {{ $t("profile.pending") }}
+            </p>
             <h3 class="text-2xl font-bold mt-2 text-yellow-500">
               {{ pendingCount }}
             </h3>
           </div>
 
           <div class="bg-white rounded-2xl shadow p-5">
-            <p class="text-sm text-gray-500">Delivered Orders</p>
+            <p class="text-sm text-gray-500">{{ $t("profile.delivered") }}</p>
             <h3 class="text-2xl font-bold mt-2 text-green-600">
               {{ deliveredCount }}
             </h3>
@@ -132,41 +140,47 @@
             <!-- Personal / Edit Info -->
             <div class="bg-white rounded-2xl shadow p-6">
               <h2 class="text-xl font-semibold mb-6 text-gray-800">
-                Account Information
+                {{ $t("profile.accountInfo") }}
               </h2>
 
               <!-- View Mode -->
               <div v-if="!isEditing" class="grid md:grid-cols-2 gap-5">
                 <div>
-                  <p class="text-sm text-gray-500">Full Name</p>
+                  <p class="text-sm text-gray-500">{{ $t("profile.name") }}</p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.name || "N/A" }}
                   </p>
                 </div>
 
                 <div>
-                  <p class="text-sm text-gray-500">Email</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.email") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.email || "N/A" }}
                   </p>
                 </div>
 
                 <div>
-                  <p class="text-sm text-gray-500">Phone</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.phone") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.phone || "N/A" }}
                   </p>
                 </div>
 
                 <div>
-                  <p class="text-sm text-gray-500">Gender</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.gender") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.gender || "N/A" }}
                   </p>
                 </div>
 
                 <div class="md:col-span-2">
-                  <p class="text-sm text-gray-500">Bio</p>
+                  <p class="text-sm text-gray-500">{{ $t("profile.bio") }}</p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.bio || "No bio added yet." }}
                   </p>
@@ -219,14 +233,14 @@
                     @click="saveChanges"
                     class="bg-green-600 text-white px-5 py-2 rounded-xl hover:bg-green-700 transition"
                   >
-                    Save
+                    {{ $t("profile.save") }}
                   </button>
 
                   <button
                     @click="cancelEdit"
                     class="bg-gray-400 text-white px-5 py-2 rounded-xl hover:bg-gray-500 transition"
                   >
-                    Cancel
+                    {{ $t("profile.cancel") }}
                   </button>
                 </div>
               </div>
@@ -235,13 +249,15 @@
             <!-- Recent Orders -->
             <div class="bg-white rounded-2xl shadow p-6">
               <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold">Recent Orders</h2>
+                <h2 class="text-xl font-semibold">
+                  {{ $t("profile.recentOrders") }}
+                </h2>
 
                 <NuxtLink
-                  to="/orders"
+                  :to="localePath('/orders')"
                   class="text-sm text-black font-medium hover:underline"
                 >
-                  View All
+                  {{ $t("profile.viewOrders") }}
                 </NuxtLink>
               </div>
 
@@ -260,7 +276,7 @@
                     </p>
 
                     <p class="text-sm text-gray-500 mt-1">
-                      Order# {{ order.id }}
+                      {{ $t("profile.orderId") }} {{ order.id }}
                     </p>
 
                     <p class="text-sm text-gray-400 mt-1">
@@ -268,7 +284,7 @@
                     </p>
                   </div>
 
-                  <div class="text-right">
+                  <div class="text-end">
                     <p class="font-semibold text-lg">{{ order.total }} EGP</p>
                     <span
                       class="inline-block mt-2 px-3 py-1 rounded-full text-sm"
@@ -287,7 +303,7 @@
               </div>
 
               <div v-else class="text-gray-500 text-center py-6">
-                You have no orders yet.
+                {{ $t("profile.noOrders") }}
               </div>
             </div>
           </div>
@@ -297,33 +313,41 @@
             <!-- Shipping Info -->
             <div class="bg-white rounded-2xl shadow p-6">
               <h2 class="text-xl font-semibold mb-6 text-gray-800">
-                Shipping Information
+                {{ $t("profile.shipping") }}
               </h2>
 
               <div v-if="!isEditing" class="space-y-4">
                 <div>
-                  <p class="text-sm text-gray-500">Address</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.address") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.address || "N/A" }}
                   </p>
                 </div>
 
                 <div>
-                  <p class="text-sm text-gray-500">City</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.city") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.city || "N/A" }}
                   </p>
                 </div>
 
                 <div>
-                  <p class="text-sm text-gray-500">Country</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.country") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.country || "N/A" }}
                   </p>
                 </div>
 
                 <div>
-                  <p class="text-sm text-gray-500">Postal Code</p>
+                  <p class="text-sm text-gray-500">
+                    {{ $t("profile.postal") }}
+                  </p>
                   <p class="font-medium text-gray-800">
                     {{ userStore.user?.postalCode || "N/A" }}
                   </p>
@@ -334,28 +358,28 @@
                 <input
                   v-model="editedAddress"
                   type="text"
-                  placeholder="Address"
+                  :placeholder="$t('profile.address')"
                   class="w-full border rounded-xl px-4 py-3"
                 />
 
                 <input
                   v-model="editedCity"
                   type="text"
-                  placeholder="City"
+                  :placeholder="$t('profile.city')"
                   class="w-full border rounded-xl px-4 py-3"
                 />
 
                 <input
                   v-model="editedCountry"
                   type="text"
-                  placeholder="Country"
+                  :placeholder="$t('profile.country')"
                   class="w-full border rounded-xl px-4 py-3"
                 />
 
                 <input
                   v-model="editedPostalCode"
                   type="text"
-                  placeholder="Postal Code"
+                  :placeholder="$t('profile.postal')"
                   class="w-full border rounded-xl px-4 py-3"
                 />
               </div>
@@ -376,6 +400,7 @@ import { ref, computed, onMounted } from "vue";
 import { useUserStore } from "~/stores/auth";
 import { useOrdersStore } from "~/stores/orders";
 
+const localePath = useLocalePath();
 const userStore = useUserStore();
 const ordersStore = useOrdersStore();
 

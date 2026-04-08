@@ -1,0 +1,410 @@
+{
+  "hero": {
+    "title": "Premium Towels Crafted for Comfort & Quality",
+    "desc": "We manufacture high-quality towels using premium cotton materials, designed for homes, hotels, and wholesale partners.",
+    "shop": "Shop Products",
+    "learn": "Learn More"
+  },
+  "why": {
+    "title": "Why Choose Fota Store?",
+    "q1": {
+      "title": "Premium Quality",
+      "desc": "Made from carefully selected cotton for maximum softness and durability."
+    },
+    "q2": {
+      "title": "Factory Direct",
+      "desc": "Buy directly from the manufacturer with competitive prices for retail and wholesale."
+    },
+    "q3": {
+      "title": "Trusted by Businesses",
+      "desc": "Supplying hotels, gyms, and resellers with reliable bulk solutions."
+    }
+  },
+  "featured": {
+    "title": "Featured Products",
+    "loading": "Loading featured products..."
+  },
+  "cta": {
+    "title": "Looking for Wholesale Orders?",
+    "desc": "We provide special pricing and custom solutions for bulk and wholesale buyers.",
+    "btn": "More about Us"
+  },
+  "about": {
+    "hero": {
+      "title": "About Fota Store",
+      "desc": "Crafting premium towels with precision, quality, and years of manufacturing expertise."
+    },
+    "story": {
+      "title": "Our Story",
+      "p1": "Fota Store began with one simple mission: to manufacture towels that combine softness, durability, and premium quality.",
+      "p2": "Today, we proudly supply homes, hotels, gyms, and wholesale partners with textile products designed to last."
+    },
+    "features": {
+      "title": "What Makes Us Different?",
+      "f1": "High-density premium cotton",
+      "f2": "Factory-direct competitive pricing",
+      "f3": "Bulk & wholesale capabilities",
+      "f4": "Strict quality control standards"
+    },
+    "stats": {
+      "exp": "Years of Experience",
+      "partners": "Business Partners",
+      "orders": "Bulk Orders Delivered"
+    },
+    "cta": {
+      "title": "Ready to Work With Us?",
+      "desc": "Whether you're a retailer or a wholesale partner, we are ready to deliver quality at scale.",
+      "btn": "Explore Our Products"
+    }
+  },
+  "cart": {
+    "title": "Your Cart",
+    "desc": "Review your selected products before checkout.",
+    "currency": "EGP",
+    "remove": "Remove",
+    "summary": "Cart Summary",
+    "items": "Total Items",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "empty": "Your cart is empty",
+    "shop": "Continue Shopping"
+  },
+  "login": {
+    "welcome": "Welcome Back to Fota Store",
+    "desc": "Login to continue shopping and track your orders",
+    "title": "Login",
+    "subtitle": "Enter your email and password",
+    "email": "Email",
+    "password": "Password",
+    "show": "Show",
+    "hide": "Hide",
+    "button": "Login",
+    "loading": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+    "createAccount": "Create one now"
+  },
+
+  "register": {
+    "welcome": "Welcome to Fota Store",
+    "desc": "Create your account and verify your email",
+    "title": "Register",
+    "verify": "Verify Email",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "gender": "Select Gender",
+    "male": "Male",
+    "female": "Female",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "postal": "Postal Code",
+    "bio": "Short Bio",
+    "password": "Password",
+    "sendOtp": "Send OTP",
+    "sending": "Sending...",
+    "sent": "We sent a code to",
+    "otp": "Enter OTP",
+    "verifyBtn": "Verify",
+    "verifying": "Verifying...",
+    "resend": "Resend OTP",
+    "haveAccount": "Already have an account?",
+    "login": "Login",
+    "registerAgain": "Back to registration form"
+  },
+  "avatar": {
+    "profile": "Profile Avatar",
+
+    "upload": "Upload Avatar",
+    "change": "Change Avatar",
+    "remove": "Remove Avatar"
+  },
+
+  "profile": {
+    "title": "My Profile",
+    "joined": "Joined",
+    "edit": "Edit Profile",
+    "logout": "Logout",
+    "totalOrders": "Total Orders",
+    "totalSpent": "Total Spent",
+    "pending": "Pending Orders",
+    "delivered": "Delivered Orders",
+    "accountInfo": "Account Information",
+    "shipping": "Shipping Information",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "gender": "Gender",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "postal": "Postal Code",
+    "noOrders": "You have no orders yet. Start shopping now!",
+    "viewOrders": "View My Orders",
+    "orderId": "Order#",
+    "recentOrders": "Recent Orders",
+    "bio": "Bio",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "changeAvatar": "Change Avatar"
+  },
+
+  "orders": {
+    "title": "My Orders",
+    "subtitle": "Track your orders, shipping, and payments.",
+    "order": "Order",
+    "total": "Total",
+    "viewDetails": "View Details",
+    "hideDetails": "Hide Details",
+    "shipping": "Shipping Details",
+    "payment": "Payment Details",
+    "name": "Name",
+    "phone": "Phone",
+    "city": "City",
+    "address": "Address",
+    "notes": "Notes",
+    "method": "Method",
+    "status": "Status",
+    "quantity": "Quantity",
+    "empty": "You have no orders yet.",
+    "shop": "Start Shopping",
+    "noProducts": "No products",
+    "noNotes": "No notes",
+    "unit": "item"
+  },
+
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Enter your shipping details and payment method.",
+    "shipping": "Shipping Information",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "city": "City",
+    "address": "Full Address",
+    "notes": "Order Notes (optional)",
+    "payment": "Payment Method",
+    "cod": "Cash on Delivery",
+    "codDesc": "Pay when your order arrives.",
+    "card": "Online Card Payment",
+    "comingSoon": "Coming soon",
+    "summary": "Order Summary",
+    "items": "Total Items",
+    "subtotal": "Subtotal",
+    "shippingCost": "Shipping",
+    "free": "Free",
+    "total": "Total",
+    "confirm": "Confirm Order",
+    "processing": "Processing...",
+    "success": "Order placed successfully!"
+  },
+
+  "navbar": {
+    "brand": {
+      "title": "Fota Store",
+      "subtitle": "Premium Cotton"
+    },
+    "admin": {
+      "title": "Admin Dashboard",
+      "subtitle": "Fota Store Panel"
+    },
+    "links": {
+      "products": "Products",
+      "about": "About",
+      "cart": "Cart",
+      "profile": "Profile",
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout"
+    }
+  },
+
+  "adminDashboard": {
+    "header": {
+      "panel": "Admin Panel",
+      "title": "Admin Dashboard",
+      "desc": "Manage orders, track revenue, shipping details, and payment status from one place.",
+      "currentView": "Current View",
+      "showing": "Showing {count} order(s)"
+    },
+    "filters": {
+      "searchLabel": "Search by Order ID",
+      "searchPlaceholder": "Type order id...",
+      "timeLabel": "Filter by Time",
+      "allTime": "All Time",
+      "today": "Today",
+      "last7Days": "Last 7 Days",
+      "last30Days": "Last 30 Days",
+      "thisMonth": "This Month",
+      "all": "All Orders"
+    },
+    "stats": {
+      "totalOrders": "Total Orders",
+      "totalOrdersDesc": "All placed orders",
+      "totalRevenue": "Total Revenue",
+      "totalRevenueDesc": "Total sales amount",
+      "pendingOrders": "Pending Orders",
+      "pendingOrdersDesc": "Waiting for action",
+      "deliveredOrders": "Delivered Orders",
+      "deliveredOrdersDesc": "Completed deliveries"
+    },
+    "order": {
+      "orderNumber": "Order",
+      "date": "Date",
+      "customer": "Customer",
+      "phone": "Phone",
+      "city": "City",
+      "address": "Address",
+      "paymentMethod": "Payment Method",
+      "notes": "Notes",
+      "products": "Products",
+      "itemsCount": "Items Count",
+      "totalAmount": "Total Amount",
+      "orderStatus": "Order Status",
+      "paymentStatus": "Payment Status"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "payment": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "failed": "Failed",
+      "refunded": "Refunded"
+    },
+    "fallback": {
+      "na": "N/A",
+      "noNotes": "No notes",
+      "noProducts": "No products"
+    },
+    "loading": "Loading dashboard...",
+    "empty": "No orders found for this filter."
+  },
+  "adminProducts": {
+    "header": {
+      "panel": "Admin Panel",
+      "title": "Products Management",
+      "desc": "Add, edit, and organize your products collection."
+    },
+    "search": {
+      "label": "Search Products",
+      "placeholder": "Search by title...",
+      "totalProducts": "Total Products"
+    },
+    "stock": "Stock",
+    "empty": "No products found.",
+    "buttons": {
+      "addProduct": "Add Product",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes"
+    },
+    "modal": {
+      "addTitle": "Add Product",
+      "editTitle": "Edit Product",
+      "fields": {
+        "title": "Title",
+        "price": "Price",
+        "category": "Category",
+        "stock": "Stock Quantity",
+        "discount": "Discount %",
+        "description": "Description"
+      }
+    },
+    "states": {
+      "saving": "Saving...",
+      "uploading": "Uploading..."
+    }
+  },
+
+  "productCategories": {
+    "all": "All",
+    "bath": "Bath",
+    "hand": "Hand",
+    "spa": "Spa",
+    "sport": "Sport",
+    "face": "Face"
+  },
+  "productsPage": {
+    "hero": {
+      "eyebrow": "Fota Store Collection",
+      "title": "Discover Premium Towels & Home Essentials",
+      "desc": "Explore our carefully selected products with modern quality, elegant design, and everyday comfort."
+    },
+    "search": {
+      "label": "Search Products",
+      "placeholder": "Search by title..."
+    },
+    "results": {
+      "showing": "Showing",
+      "of": "of",
+      "products": "product(s)"
+    },
+    "states": {
+      "loading": "Loading products...",
+      "empty": "No products found."
+    }
+  },
+  "productDetails": {
+    "back": "Back to Products",
+    "states": {
+      "loading": "Loading product...",
+      "notFound": "Product not found."
+    },
+    "stock": {
+      "inStock": "In Stock",
+      "soldOut": "Sold Out"
+    },
+    "discount": {
+      "off": "OFF"
+    },
+    "info": {
+      "category": "Category",
+      "delivery": "Delivery",
+      "deliveryValue": "2 - 4 Business Days",
+      "quality": "Quality",
+      "qualityValue": "Premium Material",
+      "returns": "Returns",
+      "returnsValue": "7 Days Return Policy"
+    },
+    "actions": {
+      "addToCart": "Add To Cart",
+      "soldOut": "Sold Out",
+      "goToCart": "Go to Cart"
+    },
+    "related": {
+      "title": "Related Products",
+      "viewAll": "View All"
+    },
+    "fallback": {
+      "product": "Product",
+      "general": "General"
+    }
+  },
+
+  "productCard": {
+    "currency": "EGP",
+    "stock": {
+      "inStock": "In Stock",
+      "soldOut": "Sold Out"
+    },
+    "discount": {
+      "off": "OFF"
+    },
+    "actions": {
+      "viewDetails": "View Details"
+    },
+    "fallback": {
+      "product": "Product",
+      "description": "Premium quality product for everyday use."
+    }
+  }
+}

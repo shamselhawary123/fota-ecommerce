@@ -23,17 +23,17 @@
 
             <div class="hidden sm:block">
               <p class="text-xl font-bold tracking-wide leading-none">
-                Fota Store
+                {{ t("navbar.brand.title") }}
               </p>
               <p class="text-xs text-gray-200 mt-1 tracking-[0.2em] uppercase">
-                Premium Cotton
+                {{ t("navbar.brand.subtitle") }}
               </p>
             </div>
           </NuxtLink>
 
           <NuxtLink
             v-if="authStore.user?.role === 'admin'"
-            to="/admin"
+            :to="localePath('/admin')"
             class="flex items-center gap-3 group"
           >
             <div
@@ -48,10 +48,10 @@
 
             <div class="hidden sm:block">
               <p class="text-xl font-bold tracking-wide leading-none">
-                Admin Dashboard
+                {{ t("navbar.admin.title") }}
               </p>
               <p class="text-xs text-gray-200 mt-1 tracking-[0.2em] uppercase">
-                Fota Store Panel
+                {{ t("navbar.admin.subtitle") }}
               </p>
             </div>
           </NuxtLink>
@@ -59,35 +59,63 @@
 
         <!-- Desktop Links -->
         <div class="hidden md:flex items-center gap-2">
+          <div class="flex gap-2">
+            <NuxtLink
+              :to="switchLocalePath('en')"
+              class="px-3 py-1 rounded-full text-sm active:scale-95 transition"
+              :class="
+                locale === 'en'
+                  ? 'bg-black text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              "
+            >
+              EN
+            </NuxtLink>
+
+            <NuxtLink
+              :to="switchLocalePath('ar')"
+              class="px-3 py-1 rounded-full text-sm active:scale-95 transition"
+              :class="
+                locale === 'ar'
+                  ? 'bg-black text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              "
+            >
+              AR
+            </NuxtLink>
+          </div>
           <ClientOnly>
             <NuxtLink
               v-if="authStore.user?.role !== 'admin'"
-              to="/products"
+              :to="localePath('/products')"
               class="nav-link"
             >
-              Products
+              {{ t("navbar.links.products") }}
             </NuxtLink>
 
             <NuxtLink
               v-if="authStore.user?.role === 'admin'"
-              to="/admin/products"
+              :to="localePath('/admin/products')"
               class="nav-link"
             >
-              Products
+              {{ t("navbar.links.products") }}
             </NuxtLink>
           </ClientOnly>
 
-          <NuxtLink to="/about" class="nav-link"> About </NuxtLink>
+          <NuxtLink :to="localePath('/about')" class="nav-link">
+            {{ t("navbar.links.about") }}
+          </NuxtLink>
 
           <ClientOnly>
             <NuxtLink
               v-if="authStore.user?.role !== 'admin'"
-              to="/cart"
+              :to="localePath('/cart')"
               class="nav-link relative"
             >
-              Cart
+              {{ t("navbar.links.cart") }}
+
               <span
-                class="ml-2 inline-flex min-w-[24px] h-6 px-2 items-center justify-center text-white-800 text-xs font-bold"
+                class="ms-2 inline-flex min-w-[24px] h-6 px-2 items-center justify-center text-white-800 text-xs font-bold"
               >
                 {{ `( ${cartStore.totalItems} )` }}
               </span>
@@ -96,18 +124,22 @@
 
           <ClientOnly>
             <template v-if="authStore.isLoggedIn">
-              <NuxtLink to="/profile" class="nav-link"> Profile </NuxtLink>
+              <NuxtLink :to="localePath('/profile')" class="nav-link">
+                {{ t("navbar.links.profile") }}
+              </NuxtLink>
 
               <button class="logout-btn" @click="authStore.logout()">
-                Logout
+                {{ t("navbar.links.logout") }}
               </button>
             </template>
 
             <template v-else>
-              <NuxtLink to="/auth/login" class="nav-link"> Login </NuxtLink>
+              <NuxtLink :to="localePath('/auth/login')" class="nav-link">
+                {{ t("navbar.links.login") }}
+              </NuxtLink>
 
-              <NuxtLink to="/auth/register" class="primary-btn">
-                Register
+              <NuxtLink :to="localePath('/auth/register')" class="primary-btn">
+                {{ t("navbar.links.register") }}
               </NuxtLink>
             </template>
           </ClientOnly>
@@ -146,46 +178,50 @@
           <ClientOnly>
             <NuxtLink
               v-if="authStore.user?.role !== 'admin'"
-              to="/products"
+              :to="localePath('/products')"
               class="mobile-link"
               @click="isMenuOpen = false"
             >
-              Products
+              {{ t("navbar.links.products") }}
             </NuxtLink>
 
             <NuxtLink
               v-if="authStore.user?.role === 'admin'"
-              to="/admin/products"
+              :to="localePath('/admin/products')"
               class="mobile-link"
               @click="isMenuOpen = false"
             >
-              Products
+              {{ t("navbar.links.products") }}
             </NuxtLink>
           </ClientOnly>
 
-          <NuxtLink to="/about" class="mobile-link" @click="isMenuOpen = false">
-            About
+          <NuxtLink
+            :to="localePath('/about')"
+            class="mobile-link"
+            @click="isMenuOpen = false"
+          >
+            {{ t("navbar.links.about") }}
           </NuxtLink>
 
           <ClientOnly>
             <NuxtLink
               v-if="authStore.user?.role !== 'admin'"
-              to="/cart"
+              :to="localePath('/cart')"
               class="mobile-link"
               @click="isMenuOpen = false"
             >
-              Cart ({{ cartStore.totalItems }})
+              {{ t("navbar.links.cart") }} ({{ cartStore.totalItems }})
             </NuxtLink>
           </ClientOnly>
 
           <ClientOnly>
             <template v-if="authStore.isLoggedIn">
               <NuxtLink
-                to="/profile"
+                :to="localePath('/profile')"
                 class="mobile-link"
                 @click="isMenuOpen = false"
               >
-                Profile
+                {{ t("navbar.links.profile") }}
               </NuxtLink>
 
               <button
@@ -195,25 +231,25 @@
                   isMenuOpen = false;
                 "
               >
-                Logout
+                {{ t("navbar.links.logout") }}
               </button>
             </template>
 
             <template v-else>
               <NuxtLink
-                to="/auth/login"
+                :to="localePath('/auth/login')"
                 class="mobile-link"
                 @click="isMenuOpen = false"
               >
-                Login
+                {{ t("navbar.links.login") }}
               </NuxtLink>
 
               <NuxtLink
-                to="/auth/register"
+                :to="localePath('/auth/register')"
                 class="mobile-primary"
                 @click="isMenuOpen = false"
               >
-                Register
+                {{ t("navbar.links.register") }}
               </NuxtLink>
             </template>
           </ClientOnly>
@@ -231,6 +267,10 @@ import { useUserStore } from "~/stores/auth";
 const authStore = useUserStore();
 const cartStore = useCartStore();
 const isMenuOpen = ref(false);
+const switchLocalePath = useSwitchLocalePath();
+
+const localePath = useLocalePath();
+const { locale, t } = useI18n();
 </script>
 
 <style scoped>
@@ -255,7 +295,7 @@ const isMenuOpen = ref(false);
 }
 
 .mobile-logout {
-  @apply px-4 py-3 rounded-2xl bg-red-500/15 border border-red-300/10 text-red-100 text-left hover:bg-red-500/25 hover:text-white transition-all duration-300;
+  @apply px-4 py-3 rounded-2xl bg-red-500/15 border border-red-300/10 text-red-100 text-start hover:bg-red-500/25 hover:text-white transition-all duration-300;
 }
 
 .fade-enter-active,

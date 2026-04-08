@@ -234,11 +234,11 @@ export const useUserStore = defineStore(
 
       user.value = nextUser;
     };
-
+    const localePath = useLocalePath();
     const logout = async () => {
       await $supabase.auth.signOut();
       user.value = null;
-      navigateTo("/auth/login");
+      navigateTo(localePath("/auth/login"));
     };
 
     const isLoggedIn = computed(() => !!user.value);

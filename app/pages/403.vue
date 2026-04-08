@@ -19,7 +19,7 @@
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <NuxtLink
-          to="/"
+          :to="localePath('/')"
           class="bg-black text-white px-6 py-3 rounded-xl font-semibold hover:bg-gray-800 transition"
         >
           Back to Home
@@ -28,3 +28,7 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const localePath = useLocalePath();
+</script>

@@ -27,7 +27,7 @@
             <p class="font-semibold">{{ item.price * item.quantity }} EGP</p>
           </div>
 
-          <div class="border-t mt-6 pt-4 text-right text-lg font-bold">
+          <div class="border-t mt-6 pt-4 text-end text-lg font-bold">
             Total: {{ order.total }} EGP
           </div>
         </div>

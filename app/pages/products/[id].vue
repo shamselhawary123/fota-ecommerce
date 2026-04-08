@@ -3,10 +3,10 @@
     <div class="max-w-7xl mx-auto px-4">
       <!-- Back -->
       <NuxtLink
-        to="/products"
+        :to="localePath('/products')"
         class="inline-flex items-center gap-2 mb-6 text-sm font-medium text-gray-700 hover:text-black transition"
       >
-        ← Back to Products
+        ← {{ t("productDetails.back") }}
       </NuxtLink>
 
       <!-- Loading -->
@@ -14,7 +14,7 @@
         v-if="isLoading"
         class="bg-white rounded-3xl shadow p-10 text-center text-gray-500"
       >
-        Loading product...
+        {{ t("productDetails.states.loading") }}
       </div>
 
       <!-- Product -->
@@ -29,7 +29,7 @@
           <div class="overflow-hidden rounded-2xl">
             <img
               :src="product.image || 'https://picsum.photos/900/700'"
-              alt="product"
+              :alt="product.title || t('productDetails.fallback.product')"
               class="w-full h-[320px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
             />
           </div>
@@ -42,7 +42,9 @@
           <span
             class="inline-flex px-3 py-1 rounded-full text-sm font-medium bg-black text-white capitalize mb-4"
           >
-            {{ product.category || "product" }}
+            {{
+              categoryLabel(product.category, "productDetails.fallback.product")
+            }}
           </span>
 
           <h1
@@ -69,7 +71,8 @@
               <span
                 class="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700 font-medium"
               >
-                {{ product.discount_percent }}% OFF
+                {{ product.discount_percent }}%
+                {{ t("productDetails.discount.off") }}
               </span>
             </template>
 
@@ -87,32 +90,55 @@
                   : 'bg-red-100 text-red-700'
               "
             >
-              {{ product.stock > 0 ? "In Stock" : "Sold Out" }}
+              {{
+                product.stock > 0
+                  ? t("productDetails.stock.inStock")
+                  : t("productDetails.stock.soldOut")
+              }}
             </span>
           </div>
 
           <!-- Info Blocks -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-              <p class="text-sm text-gray-500 mb-1">Category</p>
+              <p class="text-sm text-gray-500 mb-1">
+                {{ t("productDetails.info.category") }}
+              </p>
               <p class="font-semibold text-gray-800 capitalize">
-                {{ product.category || "General" }}
+                {{
+                  categoryLabel(
+                    product.category,
+                    "productDetails.fallback.general",
+                  )
+                }}
               </p>
             </div>
 
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-              <p class="text-sm text-gray-500 mb-1">Delivery</p>
-              <p class="font-semibold text-gray-800">2 - 4 Business Days</p>
+              <p class="text-sm text-gray-500 mb-1">
+                {{ t("productDetails.info.delivery") }}
+              </p>
+              <p class="font-semibold text-gray-800">
+                {{ t("productDetails.info.deliveryValue") }}
+              </p>
             </div>
 
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-              <p class="text-sm text-gray-500 mb-1">Quality</p>
-              <p class="font-semibold text-gray-800">Premium Material</p>
+              <p class="text-sm text-gray-500 mb-1">
+                {{ t("productDetails.info.quality") }}
+              </p>
+              <p class="font-semibold text-gray-800">
+                {{ t("productDetails.info.qualityValue") }}
+              </p>
             </div>
 
             <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-              <p class="text-sm text-gray-500 mb-1">Returns</p>
-              <p class="font-semibold text-gray-800">7 Days Return Policy</p>
+              <p class="text-sm text-gray-500 mb-1">
+                {{ t("productDetails.info.returns") }}
+              </p>
+              <p class="font-semibold text-gray-800">
+                {{ t("productDetails.info.returnsValue") }}
+              </p>
             </div>
           </div>
 
@@ -123,7 +149,7 @@
               class="flex-1 bg-black text-white px-6 py-4 rounded-2xl font-semibold hover:bg-gray-800 transition shadow"
               @click="cartStore.addToCart(product)"
             >
-              Add To Cart
+              {{ t("productDetails.actions.addToCart") }}
             </button>
 
             <button
@@ -131,14 +157,14 @@
               disabled
               class="flex-1 bg-gray-300 text-gray-600 px-6 py-4 rounded-2xl font-semibold cursor-not-allowed"
             >
-              Sold Out
+              {{ t("productDetails.actions.soldOut") }}
             </button>
 
             <NuxtLink
-              to="/cart"
+              :to="localePath('/cart')"
               class="flex-1 text-center bg-white border border-gray-300 text-gray-800 px-6 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition"
             >
-              Go to Cart
+              {{ t("productDetails.actions.goToCart") }}
             </NuxtLink>
           </div>
         </div>
@@ -149,21 +175,21 @@
         v-else
         class="bg-white rounded-3xl shadow p-10 text-center text-red-500 text-lg"
       >
-        Product not found.
+        {{ t("productDetails.states.notFound") }}
       </div>
 
       <!-- Related Products -->
       <div v-if="product && relatedProducts.length" class="mt-12">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-            Related Products
+            {{ t("productDetails.related.title") }}
           </h2>
 
           <NuxtLink
-            to="/products"
+            :to="localePath('/products')"
             class="text-sm font-medium text-gray-600 hover:text-black"
           >
-            View All
+            {{ t("productDetails.related.viewAll") }}
           </NuxtLink>
         </div>
 
@@ -185,12 +211,15 @@ import { useProductsStore } from "~/stores/products";
 import { useRoute } from "vue-router";
 import { useCartStore } from "~/stores/cart";
 
+const localePath = useLocalePath();
 const route = useRoute();
 const productsStore = useProductsStore();
 const cartStore = useCartStore();
 
 const isLoading = computed(() => productsStore.loading);
 const productId = route.params.id;
+
+const { t } = useI18n();
 
 onMounted(async () => {
   if (!productsStore.products.length) {
@@ -216,5 +245,23 @@ const relatedProducts = computed(() => {
 
 const discountedPrice = (price, discount) => {
   return Math.round(price - price * (discount / 100));
+};
+
+const categoryLabel = (
+  category,
+  fallbackKey = "productDetails.fallback.product",
+) => {
+  if (!category) return t(fallbackKey);
+
+  const categoriesMap = {
+    all: t("productCategories.all"),
+    bath: t("productCategories.bath"),
+    hand: t("productCategories.hand"),
+    spa: t("productCategories.spa"),
+    sport: t("productCategories.sport"),
+    face: t("productCategories.face"),
+  };
+
+  return categoriesMap[category] || category;
 };
 </script>

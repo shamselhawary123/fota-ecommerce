@@ -1,6 +1,6 @@
 <template>
-  <ClientOnly>
-    <div class="min-h-screen bg-gray-100 p-4 md:p-8">
+  <div class="min-h-screen bg-gray-100 p-4 md:p-8">
+    <ClientOnly>
       <!-- Header -->
       <div
         class="rounded-3xl bg-gradient-to-r from-black via-gray-900 to-gray-700 text-white p-6 md:p-8 shadow-lg mb-8"
@@ -10,13 +10,13 @@
         >
           <div>
             <p class="text-sm uppercase tracking-widest text-gray-300 mb-2">
-              Admin Panel
+              {{ t("adminProducts.header.panel") }}
             </p>
             <h1 class="text-3xl md:text-4xl font-bold mb-2">
-              Products Management
+              {{ t("adminProducts.header.title") }}
             </h1>
             <p class="text-gray-300">
-              Add, edit, and organize your products collection.
+              {{ t("adminProducts.header.desc") }}
             </p>
           </div>
 
@@ -24,7 +24,7 @@
             @click="openAddModal"
             class="bg-white text-black px-5 py-3 rounded-xl font-semibold hover:bg-gray-100 transition shadow"
           >
-            + Add Product
+            + {{ t("adminProducts.buttons.addProduct") }}
           </button>
         </div>
       </div>
@@ -36,18 +36,18 @@
         >
           <div class="w-full lg:max-w-md">
             <label class="block text-sm font-medium text-gray-600 mb-2">
-              Search Products
+              {{ t("adminProducts.search.label") }}
             </label>
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Search by title..."
+              :placeholder="t('adminProducts.search.placeholder')"
               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
 
           <div class="text-sm text-gray-500">
-            Total Products:
+            {{ t("adminProducts.search.totalProducts") }}
             <span class="font-bold text-gray-800">
               {{ filteredProducts.length }}
             </span>
@@ -93,7 +93,7 @@
               class="text-sm mt-1"
               :class="product.stock > 0 ? 'text-green-600' : 'text-red-500'"
             >
-              Stock: {{ product.stock }}
+              {{ t("adminProducts.stock") }}: {{ product.stock }}
             </p>
 
             <div class="flex gap-2 mt-5">
@@ -101,14 +101,14 @@
                 @click="openEditModal(product)"
                 class="flex-1 bg-gray-500 text-white px-3 py-2 rounded-xl hover:bg-gray-700 transition"
               >
-                Edit
+                {{ t("adminProducts.buttons.edit") }}
               </button>
 
               <button
                 @click="deleteProduct(product.id)"
                 class="flex-1 bg-red-500 text-white px-3 py-2 rounded-xl hover:bg-red-600 transition"
               >
-                Delete
+                {{ t("adminProducts.buttons.delete") }}
               </button>
             </div>
           </div>
@@ -120,7 +120,7 @@
         v-else
         class="bg-white rounded-3xl shadow p-10 text-center text-gray-500"
       >
-        No products found.
+        {{ t("adminProducts.empty") }}
       </div>
 
       <!-- Add / Edit Modal -->
@@ -131,39 +131,42 @@
         >
           <div class="bg-white p-6 rounded-3xl w-full max-w-md shadow-xl">
             <h2 class="text-2xl font-bold mb-5">
-              {{ isEditing ? "Edit Product" : "Add Product" }}
+              {{
+                isEditing
+                  ? t("adminProducts.modal.editTitle")
+                  : t("adminProducts.modal.addTitle")
+              }}
             </h2>
 
             <input
               v-model="form.title"
-              placeholder="Title"
+              :placeholder="t('adminProducts.modal.fields.title')"
               class="border w-full p-3 rounded-xl mb-3"
             />
 
             <input
               v-model="form.price"
-              placeholder="Price"
+              :placeholder="t('adminProducts.modal.fields.price')"
               type="number"
               class="border w-full p-3 rounded-xl mb-3"
             />
 
             <input
               v-model="form.category"
-              placeholder="Category"
+              :placeholder="t('adminProducts.modal.fields.category')"
               class="border w-full p-3 rounded-xl mb-3"
             />
 
             <input
               v-model="form.stock"
-              placeholder="Stock Quantity"
+              :placeholder="t('adminProducts.modal.fields.stock')"
               type="number"
               min="0"
               class="border w-full p-3 rounded-xl mb-3"
             />
-
             <input
               v-model="form.discount_percent"
-              placeholder="Discount %"
+              :placeholder="t('adminProducts.modal.fields.discount')"
               type="number"
               min="0"
               max="100"
@@ -172,7 +175,7 @@
 
             <textarea
               v-model="form.description"
-              placeholder="Description"
+              :placeholder="t('adminProducts.modal.fields.description')"
               class="border w-full p-3 rounded-xl mb-3"
             />
 
@@ -195,7 +198,7 @@
                 @click="closeModal"
                 class="px-4 py-2 border rounded-xl hover:bg-gray-50"
               >
-                Cancel
+                {{ t("adminProducts.buttons.cancel") }}
               </button>
 
               <button
@@ -206,19 +209,19 @@
                 {{
                   isUploading
                     ? isEditing
-                      ? "Saving..."
-                      : "Uploading..."
+                      ? t("adminProducts.states.saving")
+                      : t("adminProducts.states.uploading")
                     : isEditing
-                      ? "Save Changes"
-                      : "Add Product"
+                      ? t("adminProducts.buttons.saveChanges")
+                      : t("adminProducts.buttons.addProduct")
                 }}
               </button>
             </div>
           </div>
         </div>
       </transition>
-    </div>
-  </ClientOnly>
+    </ClientOnly>
+  </div>
 </template>
 
 <script setup>
@@ -238,6 +241,8 @@ const isUploading = ref(false);
 const selectedImage = ref(null);
 const imagePreview = ref("");
 const searchQuery = ref("");
+
+const { t } = useI18n();
 
 const form = ref({
   title: "",

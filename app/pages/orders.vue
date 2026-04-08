@@ -5,9 +5,11 @@
       <div
         class="rounded-3xl bg-gradient-to-r from-black via-gray-900 to-gray-700 text-white p-8 shadow-lg mb-8"
       >
-        <h1 class="text-3xl md:text-4xl font-bold mb-3">My Orders</h1>
+        <h1 class="text-3xl md:text-4xl font-bold mb-3">
+          {{ $t("orders.title") }}
+        </h1>
         <p class="text-gray-300">
-          Track your order history, shipping details, and payment method.
+          {{ $t("orders.subtitle") }}
         </p>
       </div>
 
@@ -25,7 +27,7 @@
               <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-3 mb-3">
                   <h2 class="font-bold text-lg text-gray-800 break-all">
-                    Order #{{ order.id }}
+                    {{ $t("orders.order") }} {{ order.id }}
                   </h2>
 
                   <span
@@ -57,10 +59,12 @@
               </div>
 
               <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                <div class="text-left sm:text-right">
-                  <p class="text-sm text-gray-500">Total</p>
+                <div class="text-start sm:text-end">
+                  <p class="text-sm text-gray-500">
+                    {{ $t("orders.total") }}
+                  </p>
                   <p class="text-2xl font-bold text-gray-900">
-                    {{ order.total }} EGP
+                    {{ order.total }} {{ $t("cart.currency") }}
                   </p>
                 </div>
 
@@ -69,7 +73,9 @@
                   class="bg-black text-white px-5 py-3 rounded-2xl text-sm font-medium hover:bg-gray-800 transition"
                 >
                   {{
-                    expandedOrder === order.id ? "Hide Details" : "View Details"
+                    expandedOrder === order.id
+                      ? $t("orders.hideDetails")
+                      : $t("orders.viewDetails")
                   }}
                 </button>
               </div>
@@ -87,28 +93,38 @@
                     class="bg-gray-50 rounded-2xl p-4 border border-gray-100"
                   >
                     <h3 class="font-semibold text-gray-800 mb-3">
-                      Shipping Details
+                      {{ $t("orders.shipping") }}
                     </h3>
 
                     <div class="space-y-2 text-sm text-gray-600">
                       <p>
-                        <span class="font-medium text-gray-800">Name:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.name") }}:</span
+                        >
                         {{ order.customer_name || "N/A" }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800">Phone:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.phone") }}:</span
+                        >
                         {{ order.phone || "N/A" }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800">City:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.city") }}:</span
+                        >
                         {{ order.city || "N/A" }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800">Address:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.address") }}:</span
+                        >
                         {{ order.address || "N/A" }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800">Notes:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.notes") }}:</span
+                        >
                         {{ order.notes || "No notes" }}
                       </p>
                     </div>
@@ -118,16 +134,20 @@
                     class="bg-gray-50 rounded-2xl p-4 border border-gray-100"
                   >
                     <h3 class="font-semibold text-gray-800 mb-3">
-                      Payment Details
+                      {{ $t("orders.payment") }}
                     </h3>
 
                     <div class="space-y-2 text-sm text-gray-600">
                       <p>
-                        <span class="font-medium text-gray-800">Method:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.method") }}:</span
+                        >
                         {{ order.payment_method || "N/A" }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800">Status:</span>
+                        <span class="font-medium text-gray-800"
+                          >{{ $t("orders.status") }}:</span
+                        >
                         {{ order.payment_status || "N/A" }}
                       </p>
                     </div>
@@ -153,16 +173,16 @@
                           {{ item.title || item.name }}
                         </p>
                         <p class="text-sm text-gray-500">
-                          Quantity: {{ item.quantity }}
+                          {{ $t("orders.quantity") }}: {{ item.quantity }}
                         </p>
                         <p class="text-sm text-gray-400">
-                          {{ item.price }} EGP / item
+                          {{ item.price }} {{ $t("cart.currency") }}
                         </p>
                       </div>
                     </div>
 
                     <p class="font-semibold text-gray-900 text-lg">
-                      {{ item.price * item.quantity }} EGP
+                      {{ item.price * item.quantity }} {{ $t("cart.currency") }}
                     </p>
                   </div>
                 </div>
@@ -175,12 +195,12 @@
           v-else
           class="bg-white p-12 rounded-3xl shadow text-center text-gray-500"
         >
-          <p class="text-xl mb-4">You have no orders yet.</p>
+          <p class="text-xl mb-4">{{ $t("orders.empty") }}</p>
           <NuxtLink
-            to="/products"
+            :to="localePath('/products')"
             class="inline-block bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition"
           >
-            Start Shopping
+            {{ $t("orders.shop") }}
           </NuxtLink>
         </div>
       </ClientOnly>
@@ -197,6 +217,7 @@ import { computed, ref, onMounted } from "vue";
 import { useOrdersStore } from "~/stores/orders";
 import { useUserStore } from "~/stores/auth";
 
+const localePath = useLocalePath();
 const ordersStore = useOrdersStore();
 const userStore = useUserStore();
 

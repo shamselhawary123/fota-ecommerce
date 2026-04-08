@@ -34,7 +34,7 @@
           :key="option.value"
           type="button"
           @click="selectOption(option.value)"
-          class="w-full text-left px-4 py-3 text-sm transition-colors duration-200"
+          class="w-full text-start px-4 py-3 text-sm transition-colors duration-200"
           :class="
             modelValue === option.value
               ? 'bg-gray-100 text-black font-medium'

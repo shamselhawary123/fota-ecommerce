@@ -7,14 +7,13 @@
       >
         <div class="max-w-3xl">
           <p class="text-sm uppercase tracking-widest text-gray-300 mb-3">
-            Fota Store Collection
+            {{ t("productsPage.hero.eyebrow") }}
           </p>
           <h1 class="text-3xl md:text-5xl font-bold mb-4">
-            Discover Premium Towels & Home Essentials
+            {{ t("productsPage.hero.title") }}
           </h1>
           <p class="text-gray-300 text-base md:text-lg leading-7">
-            Explore our carefully selected products with modern quality, elegant
-            design, and everyday comfort.
+            {{ t("productsPage.hero.desc") }}
           </p>
         </div>
       </div>
@@ -27,12 +26,12 @@
           <!-- Search -->
           <div class="w-full lg:max-w-md">
             <label class="block text-sm font-medium text-gray-600 mb-2">
-              Search Products
+              {{ t("productsPage.search.label") }}
             </label>
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Search by title..."
+              :placeholder="t('productsPage.search.placeholder')"
               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
@@ -56,15 +55,15 @@
         </div>
 
         <div class="mt-5 text-sm text-gray-500">
-          Showing
+          {{ t("productsPage.results.showing") }}
           <span class="font-semibold text-gray-800">
             {{ paginatedProducts.length }}
           </span>
-          of
+          {{ t("productsPage.results.of") }}
           <span class="font-semibold text-gray-800">
             {{ filteredProducts.length }}
           </span>
-          product(s)
+          {{ t("productsPage.results.products") }}
         </div>
       </div>
 
@@ -73,7 +72,7 @@
         v-if="isLoading"
         class="bg-white rounded-3xl shadow p-10 text-center text-gray-500"
       >
-        Loading products...
+        {{ t("productsPage.states.loading") }}
       </div>
 
       <!-- Products -->
@@ -82,7 +81,7 @@
           v-if="filteredProducts.length === 0"
           class="bg-white rounded-3xl shadow p-10 text-center text-gray-500"
         >
-          No products found.
+          {{ t("productsPage.states.empty") }}
         </div>
 
         <template v-else>
@@ -106,7 +105,7 @@
               :disabled="currentPage === 1"
               class="px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 transition disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <
+              &lt;
             </button>
 
             <button
@@ -128,7 +127,7 @@
               :disabled="currentPage === totalPages"
               class="px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 transition disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              >
+              &gt;
             </button>
           </div>
         </template>
@@ -148,14 +147,15 @@ const searchQuery = ref("");
 const selectedCategory = ref("all");
 const currentPage = ref(1);
 const itemsPerPage = 8;
+const { t } = useI18n();
 
 const categoryFilters = [
-  { label: "All", value: "all" },
-  { label: "Bath", value: "bath" },
-  { label: "Hand", value: "hand" },
-  { label: "Spa", value: "spa" },
-  { label: "Sport", value: "sport" },
-  { label: "Face", value: "face" },
+  { label: t("productCategories.all"), value: "all" },
+  { label: t("productCategories.bath"), value: "bath" },
+  { label: t("productCategories.hand"), value: "hand" },
+  { label: t("productCategories.spa"), value: "spa" },
+  { label: t("productCategories.sport"), value: "sport" },
+  { label: t("productCategories.face"), value: "face" },
 ];
 
 onMounted(async () => {

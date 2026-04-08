@@ -20,22 +20,20 @@
             class="absolute inset-0 flex flex-col justify-center px-10 text-white"
           >
             <h1 class="text-4xl font-bold leading-tight mb-4">
-              Welcome Back to <br />
-              Fota Store
+              {{ $t("login.welcome") }} <br />
             </h1>
 
             <p class="text-gray-200 leading-7 max-w-md">
-              Log in to continue shopping, track your orders, manage your
-              profile, and enjoy a smooth e-commerce experience.
+              {{ $t("login.desc") }}
             </p>
 
             <div class="mt-8">
-              <p class="text-sm text-gray-300">Don’t have an account yet?</p>
+              <p class="text-sm text-gray-300">{{ $t("login.noAccount") }}</p>
               <NuxtLink
-                to="/auth/register"
+                :to="localePath('/auth/register')"
                 class="inline-block mt-2 font-semibold underline underline-offset-4 hover:text-gray-200 transition"
               >
-                Create one now
+                {{ $t("login.createAccount") }}
               </NuxtLink>
             </div>
           </div>
@@ -45,35 +43,37 @@
         <div class="flex items-center justify-center p-8 md:p-10">
           <div class="w-full max-w-md">
             <div class="mb-8">
-              <h2 class="text-3xl font-bold text-gray-800 mb-2">Login</h2>
+              <h2 class="text-3xl font-bold text-gray-800 mb-2">
+                {{ $t("login.title") }}
+              </h2>
               <p class="text-gray-500">
-                Enter your email and password to access your account.
+                {{ $t("login.subtitle") }}
               </p>
             </div>
 
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
+                  {{ $t("login.email") }}
                 </label>
                 <input
                   v-model="email"
                   type="email"
-                  placeholder="Enter your email"
+                  :placeholder="$t('login.email')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                 />
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Password
+                  {{ $t("login.password") }}
                 </label>
 
                 <div class="relative">
                   <input
                     v-model="password"
                     :type="showPassword ? 'text' : 'password'"
-                    placeholder="Enter your password"
+                    :placeholder="$t('login.password')"
                     class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition pr-16"
                   />
 
@@ -82,7 +82,7 @@
                     @click="showPassword = !showPassword"
                     class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-black transition"
                   >
-                    {{ showPassword ? "Hide" : "Show" }}
+                    {{ showPassword ? $t("login.hide") : $t("login.show") }}
                   </button>
                 </div>
               </div>
@@ -96,18 +96,17 @@
                 :disabled="isLoading"
                 class="w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span v-if="isLoading">Logging in...</span>
-                <span v-else>Login</span>
+                {{ isLoading ? $t("login.loading") : $t("login.button") }}
               </button>
             </div>
 
             <p class="mt-6 text-center text-gray-600">
-              Don’t have an account?
+              {{ $t("login.noAccount") }}
               <NuxtLink
-                class="font-semibold text-black hover:underline ml-1"
-                to="/auth/register"
+                class="font-semibold text-black hover:underline ms-1"
+                :to="localePath('/auth/register')"
               >
-                Register
+                {{ $t("login.register") }}
               </NuxtLink>
             </p>
           </div>
@@ -126,6 +125,7 @@ import { ref } from "vue";
 import { useUserStore } from "~/stores/auth";
 import { useRouter } from "vue-router";
 
+const localePath = useLocalePath();
 const userStore = useUserStore();
 const router = useRouter();
 

@@ -1,6 +1,6 @@
 <template>
-  <ClientOnly>
-    <div class="min-h-screen bg-gray-100 p-4 md:p-8">
+  <div class="min-h-screen bg-gray-100 p-4 md:p-8">
+    <ClientOnly>
       <!-- Header -->
       <div
         class="mb-8 rounded-3xl bg-gradient-to-r from-black via-gray-900 to-gray-700 text-white p-6 md:p-8 shadow-lg"
@@ -10,24 +10,31 @@
         >
           <div>
             <p class="text-sm uppercase tracking-widest text-gray-300 mb-2">
-              Admin Panel
+              {{ t("adminDashboard.header.panel") }}
             </p>
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Admin Dashboard</h1>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">
+              {{ t("adminDashboard.header.title") }}
+            </h1>
             <p class="text-gray-300 max-w-2xl">
-              Manage orders, track revenue, shipping details, and payment status
-              from one place.
+              {{ t("adminDashboard.header.desc") }}
             </p>
           </div>
 
           <div
             class="bg-white/10 backdrop-blur-md rounded-2xl p-4 min-w-[220px] border border-white/10"
           >
-            <p class="text-sm text-gray-300 mb-1">Current View</p>
+            <p class="text-sm text-gray-300 mb-1">
+              {{ t("adminDashboard.header.currentView") }}
+            </p>
             <p class="text-xl font-semibold capitalize">
               {{ selectedStatus === "all" ? "All Orders" : selectedStatus }}
             </p>
             <p class="text-sm text-gray-300 mt-2">
-              Showing {{ filteredOrders.length }} order(s)
+              {{
+                t("adminDashboard.header.showing", {
+                  count: filteredOrders.length,
+                })
+              }}
             </p>
           </div>
         </div>
@@ -39,12 +46,12 @@
           <!-- Search -->
           <div class="w-full">
             <label class="block text-sm font-medium text-gray-600 mb-2">
-              Search by Order ID
+              {{ t("adminDashboard.filters.searchLabel") }}
             </label>
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Type order id..."
+              :placeholder="t('adminDashboard.filters.searchPlaceholder')"
               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
             />
           </div>
@@ -52,17 +59,27 @@
           <!-- Date Filter -->
           <div class="w-full">
             <label class="block text-sm font-medium text-gray-600 mb-2">
-              Filter by Time
+              {{ t("adminDashboard.filters.timeLabel") }}
             </label>
             <select
               v-model="selectedDateFilter"
               class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black bg-white"
             >
-              <option value="all">All Time</option>
-              <option value="today">Today</option>
-              <option value="7days">Last 7 Days</option>
-              <option value="30days">Last 30 Days</option>
-              <option value="thisMonth">This Month</option>
+              <option value="all">
+                {{ t("adminDashboard.filters.allTime") }}
+              </option>
+              <option value="today">
+                {{ t("adminDashboard.filters.today") }}
+              </option>
+              <option value="7days">
+                {{ t("adminDashboard.filters.last7Days") }}
+              </option>
+              <option value="30days">
+                {{ t("adminDashboard.filters.last30Days") }}
+              </option>
+              <option value="thisMonth">
+                {{ t("adminDashboard.filters.thisMonth") }}
+              </option>
             </select>
           </div>
 
@@ -90,37 +107,53 @@
         <div
           class="bg-white rounded-3xl shadow p-6 border border-gray-100 hover:shadow-lg transition"
         >
-          <p class="text-sm text-gray-500">Total Orders</p>
+          <p class="text-sm text-gray-500">
+            {{ t("adminDashboard.stats.totalOrders") }}
+          </p>
           <h2 class="text-3xl font-bold mt-3">{{ totalOrders }}</h2>
-          <p class="text-sm text-gray-400 mt-2">All placed orders</p>
+          <p class="text-sm text-gray-400 mt-2">
+            {{ t("adminDashboard.stats.totalOrdersDesc") }}
+          </p>
         </div>
 
         <div
           class="bg-white rounded-3xl shadow p-6 border border-gray-100 hover:shadow-lg transition"
         >
-          <p class="text-sm text-gray-500">Total Revenue</p>
+          <p class="text-sm text-gray-500">
+            {{ t("adminDashboard.stats.totalRevenue") }}
+          </p>
           <h2 class="text-3xl font-bold mt-3">{{ totalRevenue }} EGP</h2>
-          <p class="text-sm text-gray-400 mt-2">Total sales amount</p>
+          <p class="text-sm text-gray-400 mt-2">
+            {{ t("adminDashboard.stats.totalRevenueDesc") }}
+          </p>
         </div>
 
         <div
           class="bg-white rounded-3xl shadow p-6 border border-gray-100 hover:shadow-lg transition"
         >
-          <p class="text-sm text-gray-500">Pending Orders</p>
+          <p class="text-sm text-gray-500">
+            {{ t("adminDashboard.stats.pendingOrders") }}
+          </p>
           <h2 class="text-3xl font-bold mt-3 text-yellow-500">
             {{ pendingOrders }}
           </h2>
-          <p class="text-sm text-gray-400 mt-2">Waiting for action</p>
+          <p class="text-sm text-gray-400 mt-2">
+            {{ t("adminDashboard.stats.pendingOrdersDesc") }}
+          </p>
         </div>
 
         <div
           class="bg-white rounded-3xl shadow p-6 border border-gray-100 hover:shadow-lg transition"
         >
-          <p class="text-sm text-gray-500">Delivered Orders</p>
+          <p class="text-sm text-gray-500">
+            {{ t("adminDashboard.stats.deliveredOrders") }}
+          </p>
           <h2 class="text-3xl font-bold mt-3 text-green-600">
             {{ deliveredOrders }}
           </h2>
-          <p class="text-sm text-gray-400 mt-2">Completed deliveries</p>
+          <p class="text-sm text-gray-400 mt-2">
+            {{ t("adminDashboard.stats.deliveredOrdersDesc") }}
+          </p>
         </div>
       </div>
 
@@ -129,7 +162,7 @@
         v-if="isLoading"
         class="bg-white rounded-3xl shadow p-10 text-center text-gray-500"
       >
-        Loading dashboard...
+        {{ t("adminDashboard.loading") }}
       </div>
 
       <!-- Orders List -->
@@ -138,7 +171,8 @@
           v-if="filteredOrders.length === 0"
           class="bg-white rounded-3xl shadow p-10 text-center text-gray-500"
         >
-          No orders found for this filter.
+          {{ t("adminDashboard.empty") }}
+          r.
         </div>
 
         <transition-group name="orders" tag="div" class="space-y-5">
@@ -154,7 +188,7 @@
               <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-3 mb-3">
                   <h3 class="font-bold text-lg text-gray-800 break-all">
-                    Order #{{ order.id }}
+                    {{ t("adminDashboard.order.orderNumber") }} #{{ order.id }}
                   </h3>
 
                   <span
@@ -175,65 +209,87 @@
                 <div class="grid md:grid-cols-2 gap-5 text-sm text-gray-600">
                   <div class="space-y-2">
                     <p>
-                      <span class="font-medium text-gray-800">Date:</span>
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.date") }}:</span
+                      >
                       {{ formatDate(order.created_at) }}
                     </p>
 
                     <p>
-                      <span class="font-medium text-gray-800">Customer:</span>
-                      {{ order.customer_name || "N/A" }}
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.customer") }}:
+                      </span>
+                      {{
+                        order.customer_name || t("adminDashboard.fallback.na")
+                      }}
                     </p>
 
                     <p>
-                      <span class="font-medium text-gray-800">Phone:</span>
-                      {{ order.phone || "N/A" }}
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.phone") }}:
+                      </span>
+                      {{ order.phone || t("adminDashboard.fallback.na") }}
                     </p>
 
                     <p>
-                      <span class="font-medium text-gray-800">City:</span>
-                      {{ order.city || "N/A" }}
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.city") }}:
+                      </span>
+                      {{ order.city || t("adminDashboard.fallback.na") }}
                     </p>
                   </div>
 
                   <div class="space-y-2">
                     <p>
-                      <span class="font-medium text-gray-800">Address:</span>
-                      {{ order.address || "N/A" }}
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.address") }}:
+                      </span>
+                      {{ order.address || t("adminDashboard.fallback.na") }}
                     </p>
 
                     <p>
-                      <span class="font-medium text-gray-800"
-                        >Payment Method:</span
-                      >
-                      {{ order.payment_method || "N/A" }}
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.paymentMethod") }}:
+                      </span>
+                      {{
+                        order.payment_method || t("adminDashboard.fallback.na")
+                      }}
                     </p>
 
                     <p>
-                      <span class="font-medium text-gray-800">Notes:</span>
-                      {{ order.notes || "No notes" }}
+                      <span class="font-medium text-gray-800">
+                        {{ t("adminDashboard.order.notes") }}:
+                      </span>
+                      {{ order.notes || t("adminDashboard.fallback.noNotes") }}
                     </p>
                   </div>
                 </div>
 
                 <p class="mt-4 text-sm text-gray-600">
-                  <span class="font-medium text-gray-800">Products:</span>
+                  <span class="font-medium text-gray-800">
+                    {{ t("adminDashboard.order.products") }}:
+                  </span>
                   {{
                     order.items
                       ?.map((item) => item.title || item.name)
-                      .join(" • ") || "No products"
+                      .join(" • ") || t("adminDashboard.fallback.noProducts")
                   }}
                 </p>
 
                 <p class="mt-2 text-sm text-gray-600">
-                  <span class="font-medium text-gray-800">Items Count:</span>
+                  <span class="font-medium text-gray-800">
+                    {{ t("adminDashboard.order.itemsCount") }}:
+                  </span>
                   {{ getItemsCount(order.items) }}
                 </p>
               </div>
 
               <!-- Right side -->
               <div class="flex flex-col gap-4 xl:min-w-[240px]">
-                <div class="text-left xl:text-right">
-                  <p class="text-sm text-gray-500">Total Amount</p>
+                <div class="text-start xl:text-end">
+                  <p class="text-sm text-gray-500">
+                    {{ t("adminDashboard.order.totalAmount") }}
+                  </p>
                   <p class="text-2xl font-bold text-gray-900">
                     {{ order.total }} EGP
                   </p>
@@ -243,7 +299,7 @@
                   <label
                     class="text-xs font-medium text-gray-500 uppercase tracking-wide"
                   >
-                    Order Status
+                    {{ t("adminDashboard.order.orderStatus") }}
                   </label>
 
                   <StatusDropdown
@@ -257,7 +313,7 @@
                   <label
                     class="text-xs font-medium text-gray-500 uppercase tracking-wide"
                   >
-                    Payment Status
+                    {{ t("adminDashboard.order.paymentStatus") }}
                   </label>
 
                   <StatusDropdown
@@ -273,8 +329,8 @@
           </div>
         </transition-group>
       </div>
-    </div>
-  </ClientOnly>
+    </ClientOnly>
+  </div>
 </template>
 
 <script setup>
@@ -292,6 +348,8 @@ const isLoading = ref(true);
 const selectedStatus = ref("all");
 const selectedDateFilter = ref("all");
 const searchQuery = ref("");
+
+const { t } = useI18n();
 
 const orderStatusOptions = [
   { label: "Pending", value: "pending" },

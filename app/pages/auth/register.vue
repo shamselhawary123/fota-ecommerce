@@ -20,22 +20,22 @@
             class="absolute inset-0 flex flex-col justify-center px-10 text-white"
           >
             <h1 class="text-4xl font-bold leading-tight mb-4">
-              Welcome to <br />
-              Fota Store
+              {{ $t("register.welcome") }}<br />
             </h1>
 
             <p class="text-gray-200 leading-7 max-w-md">
-              Join Fota Store and verify your email to create your account
-              securely.
+              {{ $t("register.desc") }}
             </p>
 
             <div class="mt-8">
-              <p class="text-sm text-gray-300">Already have an account?</p>
+              <p class="text-sm text-gray-300">
+                {{ $t("register.haveAccount") }}
+              </p>
               <NuxtLink
-                to="/auth/login"
+                :to="localePath('/auth/login')"
                 class="inline-block mt-2 font-semibold underline underline-offset-4 hover:text-gray-200 transition"
               >
-                Log in here
+                {{ $t("register.login") }}
               </NuxtLink>
             </div>
           </div>
@@ -44,7 +44,7 @@
         <!-- Right Side -->
         <div class="p-8">
           <h2 class="text-2xl font-bold mb-6 text-gray-800">
-            {{ step === "form" ? "Register" : "Verify Your Email" }}
+            {{ step === "form" ? $t("register.title") : $t("register.verify") }}
           </h2>
 
           <!-- STEP 1: FORM -->
@@ -56,20 +56,21 @@
               >
                 <img
                   :src="avatarPreview || 'https://i.pravatar.cc/150?img=12'"
-                  alt="Avatar"
+                  :alt="$t('avatar.profile')"
                   class="w-full h-full object-cover"
                 />
               </div>
 
               <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Profile Avatar
+                  {{ $t("avatar.profile") }}
                 </label>
                 <input
                   type="file"
                   accept="image/*"
                   @change="handleAvatarChange"
-                  class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-black file:text-white hover:file:opacity-90"
+                  :placeholder="$t('avatar.upload')"
+                  class="block w-full text-sm text-gray-600 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-black file:text-white hover:file:opacity-90"
                 />
               </div>
             </div>
@@ -78,14 +79,14 @@
               <input
                 v-model="name"
                 type="text"
-                placeholder="Full Name"
+                :placeholder="$t('register.name')"
                 class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
               />
 
               <input
                 v-model="email"
                 type="email"
-                placeholder="Email Address"
+                :placeholder="$t('register.email')"
                 class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
               />
 
@@ -93,24 +94,25 @@
                 <input
                   v-model="phone"
                   type="text"
-                  placeholder="Phone Number"
+                  :placeholder="$t('register.phone')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
                 />
 
                 <select
                   v-model="gender"
+                  :placeholder="$t('register.gender')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
                 >
-                  <option disabled value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option disabled value="">{{ $t("register.gender") }}</option>
+                  <option value="male">{{ $t("register.male") }}</option>
+                  <option value="female">{{ $t("register.female") }}</option>
                 </select>
               </div>
 
               <input
                 v-model="address"
                 type="text"
-                placeholder="Address"
+                :placeholder="$t('register.address')"
                 class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
               />
 
@@ -118,21 +120,21 @@
                 <input
                   v-model="city"
                   type="text"
-                  placeholder="City"
+                  :placeholder="$t('register.city')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
                 />
 
                 <input
                   v-model="country"
                   type="text"
-                  placeholder="Country"
+                  :placeholder="$t('register.country')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
                 />
 
                 <input
                   v-model="postalCode"
                   type="text"
-                  placeholder="Postal Code"
+                  :placeholder="$t('register.postal')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
                 />
               </div>
@@ -140,7 +142,7 @@
               <textarea
                 v-model="bio"
                 rows="3"
-                placeholder="Short Bio"
+                :placeholder="$t('register.bio')"
                 class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
               ></textarea>
 
@@ -148,7 +150,7 @@
                 <input
                   v-model="password"
                   :type="showPassword ? 'text' : 'password'"
-                  placeholder="Password"
+                  :placeholder="$t('register.password')"
                   class="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
                 />
                 <button
@@ -156,7 +158,7 @@
                   @click="showPassword = !showPassword"
                   class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500"
                 >
-                  {{ showPassword ? "Hide" : "Show" }}
+                  {{ showPassword ? $t("login.hide") : $t("login.show") }}
                 </button>
               </div>
 
@@ -168,7 +170,11 @@
                 :disabled="userStore.loading"
                 class="w-full bg-black text-white py-3 rounded-xl font-semibold hover:opacity-90 transition disabled:opacity-50"
               >
-                {{ userStore.loading ? "Sending..." : "Send OTP" }}
+                {{
+                  userStore.loading
+                    ? $t("register.sending")
+                    : $t("register.sendOtp")
+                }}
               </button>
             </div>
           </template>
@@ -177,7 +183,7 @@
           <template v-else>
             <div class="space-y-4">
               <p class="text-gray-600 leading-7">
-                We sent a verification code to
+                {{ $t("register.sent") }}
                 <span class="font-semibold text-black">{{ email }}</span>
               </p>
 
@@ -185,7 +191,7 @@
                 v-model="otp"
                 type="text"
                 maxlength="8"
-                placeholder="Enter OTP code"
+                :placeholder="$t('register.otp')"
                 class="w-full border border-gray-300 p-3 rounded-xl text-center tracking-[0.4em] text-lg focus:outline-none focus:ring-2 focus:ring-black"
               />
 
@@ -198,7 +204,9 @@
                 class="w-full bg-black text-white py-3 rounded-xl font-semibold hover:opacity-90 transition disabled:opacity-50"
               >
                 {{
-                  userStore.loading ? "Verifying..." : "Verify & Create Account"
+                  userStore.loading
+                    ? $t("register.verifying")
+                    : $t("register.verifyBtn")
                 }}
               </button>
 
@@ -207,25 +215,25 @@
                 :disabled="userStore.loading"
                 class="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition disabled:opacity-50"
               >
-                Resend OTP
+                {{ $t("register.resend") }}
               </button>
 
               <button
                 @click="step = 'form'"
                 class="w-full text-sm text-gray-500 hover:text-black transition"
               >
-                Back to registration form
+                {{ $t("register.registerAgain") }}
               </button>
             </div>
           </template>
 
           <p class="mt-6 text-center text-gray-600">
-            Already have an account?
+            {{ $t("register.haveAccount") }}
             <NuxtLink
-              class="font-semibold text-black hover:underline ml-1"
-              to="/auth/login"
+              class="font-semibold text-black hover:underline ms-1"
+              :to="localePath('/auth/login')"
             >
-              Login
+              {{ $t("register.login") }}
             </NuxtLink>
           </p>
         </div>
@@ -243,6 +251,7 @@ import { ref } from "vue";
 import { useUserStore } from "~/stores/auth";
 import { useRouter } from "vue-router";
 
+const localePath = useLocalePath();
 const userStore = useUserStore();
 const router = useRouter();
 

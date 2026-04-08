@@ -5,9 +5,12 @@
       <div
         class="rounded-3xl bg-gradient-to-r from-black via-gray-900 to-gray-700 text-white p-8 shadow-lg mb-8"
       >
-        <h1 class="text-3xl md:text-4xl font-bold mb-3">Your Cart</h1>
+        <h1 class="text-3xl md:text-4xl font-bold mb-3">
+          {{ t("cart.title") }}
+        </h1>
+
         <p class="text-gray-300">
-          Review your selected products before proceeding to checkout.
+          {{ t("cart.desc") }}
         </p>
       </div>
 
@@ -16,7 +19,7 @@
           v-if="cartStore.currentUserCart.length > 0"
           class="grid lg:grid-cols-3 gap-8"
         >
-          <!-- Cart Items -->
+          <!-- Items -->
           <div class="lg:col-span-2 space-y-5">
             <div
               v-for="item in cartStore.currentUserCart"
@@ -25,7 +28,6 @@
             >
               <img
                 :src="item.image || 'https://picsum.photos/300/250'"
-                alt="product"
                 class="w-full sm:w-32 h-32 object-cover rounded-2xl"
               />
 
@@ -34,133 +36,78 @@
                   {{ item.title || item.name }}
                 </h2>
 
-                <div class="mt-2">
-                  <template
-                    v-if="item.originalPrice && item.originalPrice > item.price"
-                  >
-                    <div class="flex items-center gap-3 flex-wrap">
-                      <p class="text-gray-900 font-semibold">
-                        {{ item.price }} EGP / item
-                      </p>
-                      <p class="text-sm text-gray-400 line-through">
-                        {{ item.originalPrice }} EGP
-                      </p>
-                      <span
-                        class="px-2 py-1 rounded-full text-xs bg-red-100 text-red-700 font-medium"
-                      >
-                        {{
-                          getDiscountPercent(item.originalPrice, item.price)
-                        }}% OFF
-                      </span>
-                    </div>
-                  </template>
+                <p class="text-gray-500 mt-2">
+                  {{ item.price }} {{ t("cart.currency") }}
+                </p>
 
-                  <p v-else class="text-gray-500">
-                    {{ item.price }} EGP / item
-                  </p>
-                </div>
-
-                <!-- Quantity Controls -->
                 <div class="flex items-center gap-3 mt-4">
-                  <button
-                    @click="cartStore.decreaseQuantity(item.id)"
-                    class="w-10 h-10 rounded-xl border border-gray-300 flex items-center justify-center text-lg hover:bg-gray-100 transition"
-                  >
+                  <button @click="cartStore.decreaseQuantity(item.id)">
                     -
                   </button>
-
-                  <span
-                    class="min-w-[40px] text-center font-semibold text-gray-800"
-                  >
-                    {{ item.quantity }}
-                  </span>
-
-                  <button
-                    @click="cartStore.addToCart(item)"
-                    class="w-10 h-10 rounded-xl border border-gray-300 flex items-center justify-center text-lg hover:bg-gray-100 transition"
-                  >
-                    +
-                  </button>
+                  <span>{{ item.quantity }}</span>
+                  <button @click="cartStore.addToCart(item)">+</button>
                 </div>
 
-                <div class="mt-4">
-                  <p class="font-semibold text-lg text-gray-900">
-                    {{ item.price * item.quantity }} EGP
-                  </p>
-
-                  <p
-                    v-if="item.originalPrice && item.originalPrice > item.price"
-                    class="text-sm text-gray-400 line-through"
-                  >
-                    {{ item.originalPrice * item.quantity }} EGP
-                  </p>
-                </div>
+                <p class="font-semibold text-lg mt-3">
+                  {{ item.price * item.quantity }} {{ t("cart.currency") }}
+                </p>
               </div>
 
               <button
-                class="bg-red-50 text-red-500 px-4 py-2 rounded-xl hover:bg-red-100 transition"
                 @click="cartStore.removeFromCart(item.id)"
+                class="bg-red-500 text-white px-6 py-3 rounded-xl hover:bg-red-600 transition w-full sm:w-auto shadow"
               >
-                Remove
+                {{ t("cart.remove") }}
               </button>
             </div>
           </div>
 
           <!-- Summary -->
-          <div
-            class="bg-white rounded-3xl shadow border border-gray-100 p-6 h-fit sticky top-24"
-          >
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Cart Summary</h2>
+          <div class="bg-white p-6 rounded-3xl">
+            <h2 class="text-2xl font-bold mb-6">
+              {{ t("cart.summary") }}
+            </h2>
 
-            <div class="space-y-4 text-gray-600">
-              <div class="flex justify-between">
-                <span>Total Items</span>
-                <span class="font-semibold text-gray-800">
-                  {{ cartStore.totalItems }}
-                </span>
-              </div>
-
-              <div class="flex justify-between">
-                <span>Subtotal</span>
-                <span class="font-semibold text-gray-800">
-                  {{ cartStore.totalPrice }} EGP
-                </span>
-              </div>
-
-              <div class="flex justify-between">
-                <span>Shipping</span>
-                <span class="font-semibold text-green-600">Free</span>
-              </div>
+            <div class="flex justify-between">
+              <span>{{ t("cart.items") }}</span>
+              <span>{{ cartStore.totalItems }}</span>
             </div>
 
-            <div class="border-t my-6"></div>
+            <div class="flex justify-between">
+              <span>{{ t("cart.subtotal") }}</span>
+              <span>{{ cartStore.totalPrice }} {{ t("cart.currency") }}</span>
+            </div>
 
-            <div
-              class="flex justify-between text-lg font-bold text-gray-900 mb-6"
-            >
-              <span>Total</span>
-              <span>{{ cartStore.totalPrice }} EGP</span>
+            <div class="flex justify-between">
+              <span>{{ t("cart.shipping") }}</span>
+              <span class="text-green-600">
+                {{ t("cart.free") }}
+              </span>
+            </div>
+
+            <div class="flex justify-between font-bold mt-4">
+              <span>{{ t("cart.total") }}</span>
+              <span>{{ cartStore.totalPrice }} {{ t("cart.currency") }}</span>
             </div>
 
             <NuxtLink
-              to="/checkout"
-              class="block w-full text-center bg-black text-white px-6 py-4 rounded-2xl hover:bg-gray-800 transition font-semibold"
+              :to="localePath('/checkout')"
+              class="block mt-6 text-center bg-black text-white p-3 rounded-xl"
             >
-              Proceed to Checkout
+              {{ t("cart.checkout") }}
             </NuxtLink>
           </div>
         </div>
 
-        <div
-          v-else
-          class="bg-white rounded-3xl shadow p-12 text-center text-gray-500"
-        >
-          <p class="text-xl mb-4">Your cart is empty.</p>
+        <div v-else class="text-center p-10">
+          <p>{{ t("cart.empty") }}</p>
+          <br />
+
           <NuxtLink
-            to="/products"
+            :to="localePath('/products')"
             class="inline-block bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition"
           >
-            Continue Shopping
+            {{ t("cart.shop") }}
           </NuxtLink>
         </div>
       </ClientOnly>
@@ -177,8 +124,10 @@ import { onMounted } from "vue";
 import { useCartStore } from "~/stores/cart";
 import { useProductsStore } from "~/stores/products";
 
+const localePath = useLocalePath();
 const cartStore = useCartStore();
 const productsStore = useProductsStore();
+const { t } = useI18n();
 
 const getDiscountPercent = (originalPrice, finalPrice) => {
   if (!originalPrice || originalPrice <= finalPrice) return 0;
