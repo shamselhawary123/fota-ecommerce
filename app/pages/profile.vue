@@ -32,7 +32,7 @@
                       : userStore.user?.avatar ||
                         'https://i.pravatar.cc/150?img=12'
                   "
-                  alt="{{ $t('avatar.profile') }}"
+                  :alt="$t('avatar.profile')"
                   class="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
                 />
 
@@ -67,7 +67,7 @@
                   <span
                     class="px-4 py-1.5 rounded-full text-sm font-medium bg-black text-white shadow"
                   >
-                    {{ userStore.user?.role }}
+                    {{ roleLabel(userStore.user?.role) }}
                   </span>
 
                   <span
@@ -77,8 +77,8 @@
 
                     {{
                       userStore.user?.joinDate
-                        ? new Date(userStore.user.joinDate).toLocaleDateString()
-                        : "N/A"
+                        ? formatShortDate(userStore.user.joinDate)
+                        : $t("profile.fallback.na")
                     }}
                   </span>
                 </div>
@@ -148,7 +148,7 @@
                 <div>
                   <p class="text-sm text-gray-500">{{ $t("profile.name") }}</p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.name || "N/A" }}
+                    {{ userStore.user?.name || $t("profile.fallback.na") }}
                   </p>
                 </div>
 
@@ -157,7 +157,7 @@
                     {{ $t("profile.email") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.email || "N/A" }}
+                    {{ userStore.user?.email || $t("profile.fallback.na") }}
                   </p>
                 </div>
 
@@ -166,7 +166,7 @@
                     {{ $t("profile.phone") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.phone || "N/A" }}
+                    {{ userStore.user?.phone || $t("profile.fallback.na") }}
                   </p>
                 </div>
 
@@ -175,14 +175,14 @@
                     {{ $t("profile.gender") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.gender || "N/A" }}
+                    {{ genderLabel(userStore.user?.gender) }}
                   </p>
                 </div>
 
                 <div class="md:col-span-2">
                   <p class="text-sm text-gray-500">{{ $t("profile.bio") }}</p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.bio || "No bio added yet." }}
+                    {{ userStore.user?.bio || $t("profile.fallback.noBio") }}
                   </p>
                 </div>
               </div>
@@ -193,21 +193,21 @@
                   <input
                     v-model="editedName"
                     type="text"
-                    placeholder="Full Name"
+                    :placeholder="$t('register.name')"
                     class="w-full border rounded-xl px-4 py-3"
                   />
 
                   <input
                     v-model="editedEmail"
                     type="email"
-                    placeholder="Email"
+                    :placeholder="$t('register.email')"
                     class="w-full border rounded-xl px-4 py-3"
                   />
 
                   <input
                     v-model="editedPhone"
                     type="text"
-                    placeholder="Phone Number"
+                    :placeholder="$t('register.phone')"
                     class="w-full border rounded-xl px-4 py-3"
                   />
 
@@ -215,16 +215,16 @@
                     v-model="editedGender"
                     class="w-full border rounded-xl px-4 py-3"
                   >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="">{{ $t("profile.form.selectGender") }}</option>
+                    <option value="male">{{ $t("register.male") }}</option>
+                    <option value="female">{{ $t("register.female") }}</option>
                   </select>
                 </div>
 
                 <textarea
                   v-model="editedBio"
                   rows="4"
-                  placeholder="Bio"
+                  :placeholder="$t('profile.bio')"
                   class="w-full border rounded-xl px-4 py-3"
                 ></textarea>
 
@@ -271,7 +271,7 @@
                     <p class="font-medium text-gray-800">
                       {{
                         order.items?.map((item) => item.title).join(" & ") ||
-                        "No product name"
+                        $t("profile.fallback.noProducts")
                       }}
                     </p>
 
@@ -280,23 +280,25 @@
                     </p>
 
                     <p class="text-sm text-gray-400 mt-1">
-                      {{ order.created_at }}
+                      {{ formatDate(order.created_at) }}
                     </p>
                   </div>
 
                   <div class="text-end">
-                    <p class="font-semibold text-lg">{{ order.total }} EGP</p>
+                    <p class="font-semibold text-lg">
+                      {{ order.total }} {{ $t("cart.currency") }}
+                    </p>
                     <span
                       class="inline-block mt-2 px-3 py-1 rounded-full text-sm"
                       :class="statusColor(order.status)"
                     >
-                      {{ order.status }}
+                      {{ orderStatusLabel(order.status) }}
                     </span>
                     <span
                       class="inline-block mt-2 px-3 py-1 rounded-full text-sm"
                       :class="paymentStatusColor(order.payment_status)"
                     >
-                      {{ order.payment_status }}
+                      {{ paymentStatusLabel(order.payment_status) }}
                     </span>
                   </div>
                 </div>
@@ -322,7 +324,7 @@
                     {{ $t("profile.address") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.address || "N/A" }}
+                    {{ userStore.user?.address || $t("profile.fallback.na") }}
                   </p>
                 </div>
 
@@ -331,7 +333,7 @@
                     {{ $t("profile.city") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.city || "N/A" }}
+                    {{ userStore.user?.city || $t("profile.fallback.na") }}
                   </p>
                 </div>
 
@@ -340,7 +342,7 @@
                     {{ $t("profile.country") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.country || "N/A" }}
+                    {{ userStore.user?.country || $t("profile.fallback.na") }}
                   </p>
                 </div>
 
@@ -349,7 +351,7 @@
                     {{ $t("profile.postal") }}
                   </p>
                   <p class="font-medium text-gray-800">
-                    {{ userStore.user?.postalCode || "N/A" }}
+                    {{ userStore.user?.postalCode || $t("profile.fallback.na") }}
                   </p>
                 </div>
               </div>
@@ -401,6 +403,7 @@ import { useUserStore } from "~/stores/auth";
 import { useOrdersStore } from "~/stores/orders";
 
 const localePath = useLocalePath();
+const { t, locale } = useI18n();
 const userStore = useUserStore();
 const ordersStore = useOrdersStore();
 
@@ -466,8 +469,48 @@ const cancelEdit = () => {
 };
 const logout = () => {
   userStore.logout();
-  navigateTo("/");
+  navigateTo(localePath("/"));
 };
+
+const formatDate = (date) => {
+  if (!date) return t("profile.fallback.na");
+
+  return new Intl.DateTimeFormat(locale.value === "ar" ? "ar-EG" : "en-GB", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(date));
+};
+
+const formatShortDate = (date) => {
+  if (!date) return t("profile.fallback.na");
+
+  return new Intl.DateTimeFormat(locale.value === "ar" ? "ar-EG" : "en-GB", {
+    dateStyle: "medium",
+  }).format(new Date(date));
+};
+
+const genderLabel = (gender) => {
+  const genders = {
+    male: t("register.male"),
+    female: t("register.female"),
+  };
+
+  return genders[gender] || t("profile.fallback.na");
+};
+
+const roleLabel = (role) => {
+  const roles = {
+    admin: t("profile.roles.admin"),
+    user: t("profile.roles.user"),
+  };
+
+  return roles[role] || role || t("profile.fallback.na");
+};
+
+const orderStatusLabel = (status) => t(`orders.statuses.${status || "pending"}`);
+
+const paymentStatusLabel = (status) =>
+  t(`orders.paymentStatuses.${status || "pending"}`);
 
 const recentOrders = computed(() => {
   const userId = userStore.user?.id;

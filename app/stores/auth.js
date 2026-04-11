@@ -8,7 +8,17 @@ export const useUserStore = defineStore(
     const loading = ref(false);
     const pendingRegisterData = ref(null);
 
-    const { $supabase } = useNuxtApp();
+    const nuxtApp = useNuxtApp();
+    const { $supabase } = nuxtApp;
+
+    const getLocalizedPath = (path) => {
+      const rawLocale = nuxtApp.$i18n?.locale;
+      const locale =
+        typeof rawLocale === "string" ? rawLocale : rawLocale?.value || "en";
+      const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+      return `/${locale}${normalizedPath}`;
+    };
 
     const createProfile = async (profileData) => {
       const { error } = await $supabase.from("profiles").insert([
@@ -86,11 +96,11 @@ export const useUserStore = defineStore(
         const authUser = data.user;
 
         if (!authUser) {
-          throw new Error("OTP verification failed.");
+          throw new Error("auth.errors.otpFailed");
         }
 
         if (!pendingRegisterData.value) {
-          throw new Error("Registration data is missing. Please try again.");
+          throw new Error("auth.errors.registrationDataMissing");
         }
 
         const registerData = pendingRegisterData.value;
@@ -145,7 +155,7 @@ export const useUserStore = defineStore(
         const authUser = data.user;
 
         if (!authUser) {
-          throw new Error("Login failed.");
+          throw new Error("auth.errors.loginFailed");
         }
 
         const profile = await fetchProfile(authUser.id);
@@ -234,11 +244,11 @@ export const useUserStore = defineStore(
 
       user.value = nextUser;
     };
-    const localePath = useLocalePath();
+
     const logout = async () => {
       await $supabase.auth.signOut();
       user.value = null;
-      navigateTo(localePath("/auth/login"));
+      navigateTo(getLocalizedPath("/auth/login"));
     };
 
     const isLoggedIn = computed(() => !!user.value);

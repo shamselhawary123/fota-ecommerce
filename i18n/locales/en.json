@@ -5,6 +5,51 @@
     "shop": "Shop Products",
     "learn": "Learn More"
   },
+  "home": {
+    "hero": {
+      "eyebrow": "Factory-direct premium textiles",
+      "panelTitle": "Designed for homes, hospitality, and wholesale.",
+      "panelDesc": "Elevated cotton essentials with reliable production quality, clean finishing, and a polished feel across every order."
+    },
+    "trust": {
+      "shipping": "Fast dispatch from factory",
+      "quality": "Premium cotton finishing",
+      "support": "Retail and wholesale support"
+    },
+    "collections": {
+      "eyebrow": "Shop by collection",
+      "title": "Curated essentials for every routine",
+      "desc": "Browse signature categories designed for daily comfort, hospitality-grade durability, and clean modern presentation.",
+      "browse": "Browse collection",
+      "items": {
+        "bath": "Plush full-size towels with dense absorbency and a refined finish.",
+        "hand": "Compact everyday towels built for softness, quick drying, and frequent use.",
+        "spa": "Relaxed premium textures made for hospitality, wellness spaces, and gifting.",
+        "sport": "Lightweight, durable performance towels for active routines and gym settings."
+      }
+    },
+    "featured": {
+      "eyebrow": "Best sellers",
+      "desc": "A focused edit of customer favorites and factory standouts.",
+      "viewAll": "View all products",
+      "emptyTitle": "Featured products coming soon",
+      "emptyDesc": "We are preparing a refreshed selection for the storefront."
+    },
+    "promo": {
+      "eyebrow": "Wholesale program",
+      "secondary": "Shop retail collection",
+      "wholesaleImageAlt": "Wholesale towel collection",
+      "productImageAlt": "Premium towel arrangement"
+    },
+    "story": {
+      "eyebrow": "Why Fota Store",
+      "desc": "From cotton selection to final finishing, every step is built for softness, durability, and dependable supply.",
+      "imageAlt": "Fota textile manufacturing line"
+    },
+    "finalCta": {
+      "eyebrow": "Ready to shop"
+    }
+  },
   "why": {
     "title": "Why Choose Fota Store?",
     "q1": {
@@ -85,7 +130,11 @@
     "loading": "Logging in...",
     "noAccount": "Don't have an account?",
     "register": "Register",
-    "createAccount": "Create one now"
+    "createAccount": "Create one now",
+    "visualAlt": "Login illustration",
+    "validation": {
+      "required": "Email and password are required."
+    }
   },
 
   "register": {
@@ -114,7 +163,17 @@
     "resend": "Resend OTP",
     "haveAccount": "Already have an account?",
     "login": "Login",
-    "registerAgain": "Back to registration form"
+    "visualAlt": "Registration illustration",
+    "registerAgain": "Back to registration form",
+    "validation": {
+      "required": "Name, email, and password are required.",
+      "otpRequired": "OTP code is required."
+    },
+    "messages": {
+      "otpSent": "OTP sent successfully. Check your email.",
+      "otpResent": "A new OTP has been sent.",
+      "accountCreated": "Account created successfully! Redirecting..."
+    }
   },
   "avatar": {
     "profile": "Profile Avatar",
@@ -150,7 +209,19 @@
     "bio": "Bio",
     "save": "Save Changes",
     "cancel": "Cancel",
-    "changeAvatar": "Change Avatar"
+    "changeAvatar": "Change Avatar",
+    "fallback": {
+      "na": "N/A",
+      "noBio": "No bio added yet.",
+      "noProducts": "No product name"
+    },
+    "form": {
+      "selectGender": "Select Gender"
+    },
+    "roles": {
+      "admin": "Admin",
+      "user": "Customer"
+    }
   },
 
   "orders": {
@@ -174,7 +245,25 @@
     "shop": "Start Shopping",
     "noProducts": "No products",
     "noNotes": "No notes",
-    "unit": "item"
+    "unit": "item",
+    "fallback": {
+      "na": "N/A"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "paymentStatuses": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "failed": "Failed",
+      "refunded": "Refunded"
+    },
+    "productImageAlt": "Ordered product"
   },
 
   "checkout": {
@@ -199,7 +288,14 @@
     "total": "Total",
     "confirm": "Confirm Order",
     "processing": "Processing...",
-    "success": "Order placed successfully!"
+    "success": "Order placed successfully!",
+    "productImageAlt": "Checkout product",
+    "validation": {
+      "fullName": "Full name is required.",
+      "phone": "Phone number is required.",
+      "address": "Address is required.",
+      "city": "City is required."
+    }
   },
 
   "navbar": {
@@ -211,6 +307,9 @@
       "title": "Admin Dashboard",
       "subtitle": "Fota Store Panel"
     },
+    "logoAlt": "Fota Store logo",
+    "toggle": "Toggle navigation",
+    "close": "Close navigation",
     "links": {
       "products": "Products",
       "about": "About",
@@ -333,15 +432,51 @@
     "sport": "Sport",
     "face": "Face"
   },
+  "productFilters": {
+    "sortBy": "Sort by",
+    "newest": "Newest",
+    "popularity": "Popularity",
+    "priceLowHigh": "Price: Low to High",
+    "priceHighLow": "Price: High to Low"
+  },
   "productsPage": {
     "hero": {
       "eyebrow": "Fota Store Collection",
       "title": "Discover Premium Towels & Home Essentials",
-      "desc": "Explore our carefully selected products with modern quality, elegant design, and everyday comfort."
+      "desc": "Explore our carefully selected products with modern quality, elegant design, and everyday comfort.",
+      "cote": "Browse more products across the collection."
+    },
+    "stats": {
+      "products": "Products",
+      "categories": "Categories"
     },
     "search": {
       "label": "Search Products",
       "placeholder": "Search by title..."
+    },
+    "filters": {
+      "badge": "Filters",
+      "results": "{count} Results",
+      "title": "Refine your catalog view",
+      "desc": "Filter by category and price, then sort the collection your way.",
+      "reset": "Reset",
+      "show": "Show Filters",
+      "hide": "Hide Filters",
+      "searchTitle": "Search",
+      "searchDesc": "Find products quickly by title.",
+      "priceTitle": "Price",
+      "priceDesc": "Set a range that matches your budget.",
+      "minPrice": "Min Price",
+      "minPricePlaceholder": "0",
+      "maxPrice": "Max Price",
+      "sortViewTitle": "Sort and View",
+      "sortViewDesc": "Choose how products are ordered and displayed.",
+      "sortLabel": "Sort",
+      "viewLabel": "View",
+      "gridView": "Grid view",
+      "listView": "List view",
+      "categoryTitle": "Category",
+      "categoryDesc": "Pick a collection to narrow the grid."
     },
     "results": {
       "showing": "Showing",
@@ -350,14 +485,27 @@
     },
     "states": {
       "loading": "Loading products...",
-      "empty": "No products found."
+      "empty": "No products found.",
+      "emptyDesc": "Try adjusting the search term, category, or price range."
+    },
+    "pagination": {
+      "page": "Page {current} / {total}",
+      "desc": "Browse more products across the collection."
+    },
+    "actions": {
+      "previous": "Previous",
+      "next": "Next"
     }
   },
   "productDetails": {
     "back": "Back to Products",
+    "hero": {
+      "eyebrow": "Product spotlight"
+    },
     "states": {
       "loading": "Loading product...",
-      "notFound": "Product not found."
+      "notFound": "Product not found.",
+      "notFoundDesc": "The product may have been removed or is no longer available."
     },
     "stock": {
       "inStock": "In Stock",
@@ -375,14 +523,56 @@
       "returns": "Returns",
       "returnsValue": "7 Days Return Policy"
     },
+    "price": {
+      "label": "Price",
+      "original": "Original",
+      "savings": "Save {amount} {currency}"
+    },
+    "highlights": {
+      "collection": "Collection",
+      "availability": "Availability",
+      "offer": "Current offer",
+      "shipping": "Shipping",
+      "stockValue": "{count} unit(s) ready"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "hint": "Adjust the quantity before adding this item to your cart."
+    },
     "actions": {
       "addToCart": "Add To Cart",
       "soldOut": "Sold Out",
-      "goToCart": "Go to Cart"
+      "goToCart": "Go to Cart",
+      "addToWishlist": "Add to Wishlist",
+      "removeFromWishlist": "Remove from Wishlist",
+      "browseAll": "Browse All Products"
+    },
+    "description": {
+      "eyebrow": "Details",
+      "title": "Product Description"
+    },
+    "reviews": {
+      "eyebrow": "Reviews",
+      "title": "Customer Reviews",
+      "subtitle": "Reviews UI is ready and can be connected once review data is available.",
+      "emptyTitle": "No reviews yet",
+      "emptyDesc": "Be the first to share feedback after your purchase.",
+      "writeCta": "Write a Review"
+    },
+    "summary": {
+      "eyebrow": "At a glance",
+      "title": "Purchase Support",
+      "shippingTitle": "Shipping and handling",
+      "shippingDesc": "Factory-direct fulfillment with careful packaging and clear delivery updates.",
+      "supportTitle": "Support and follow-up",
+      "supportDesc": "Need wholesale help or product guidance? Our team can support both retail and business orders."
     },
     "related": {
+      "eyebrow": "More to explore",
       "title": "Related Products",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "emptyTitle": "No related products yet",
+      "emptyDesc": "Explore the broader collection for more premium textile options."
     },
     "fallback": {
       "product": "Product",
@@ -392,6 +582,10 @@
 
   "productCard": {
     "currency": "EGP",
+    "badges": {
+      "sale": "Sale",
+      "new": "New"
+    },
     "stock": {
       "inStock": "In Stock",
       "soldOut": "Sold Out"
@@ -400,11 +594,259 @@
       "off": "OFF"
     },
     "actions": {
-      "viewDetails": "View Details"
+      "viewDetails": "View Details",
+      "addWishlist": "Add to wishlist",
+      "removeWishlist": "Remove from wishlist"
     },
     "fallback": {
       "product": "Product",
       "description": "Premium quality product for everyday use."
+    }
+  },
+  "footer": {
+    "logoAlt": "Fota Store logo",
+    "shop": "Shop",
+    "company": "Company",
+    "contact": "Contact",
+    "contactHeading": "Contact Info",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "footerNote": "Built for retail, hospitality, and wholesale.",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "x": "X"
+    }
+  },
+  "error403": {
+    "title": "Access Denied",
+    "desc": "You are not allowed to access this page.",
+    "action": "Back to Home"
+  },
+  "orderDetails": {
+    "title": "Order Details",
+    "back": "Back to Orders",
+    "orderId": "Order ID",
+    "quantity": "Quantity",
+    "total": "Total",
+    "notFound": "Order not found."
+  },
+  "common": {
+    "close": "Close",
+    "modal": "Modal"
+  },
+  "auth": {
+    "errors": {
+      "otpFailed": "OTP verification failed.",
+      "registrationDataMissing": "Registration data is missing. Please try again.",
+      "loginFailed": "Login failed."
+    }
+  },
+  "admin": {
+    "shell": {
+      "eyebrow": "Admin workspace",
+      "title": "Store Operations",
+      "desc": "Monitor orders, manage products, and keep the storefront organized from one workspace.",
+      "accountFallback": "Fota Team",
+      "role": "Admin"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "dashboardDesc": "Review order flow, revenue, and customers.",
+      "products": "Products",
+      "productsDesc": "Edit the catalog, stock, and merchandising.",
+      "storefront": "Storefront",
+      "storefrontDesc": "Jump back to the customer-facing catalog."
+    },
+    "dashboard": {
+      "eyebrow": "Order operations",
+      "title": "Admin Dashboard",
+      "desc": "Track performance, review orders, and update fulfillment and payment statuses from one place.",
+      "actions": {
+        "manageProducts": "Manage Products"
+      },
+      "metrics": {
+        "orders": "Orders",
+        "ordersDesc": "All orders in the current view",
+        "revenue": "Revenue",
+        "revenueDesc": "Sales total for the current filter",
+        "customers": "Customers",
+        "customersDesc": "Unique shoppers in this selection",
+        "units": "Product Units",
+        "unitsDesc": "Items sold across visible orders"
+      },
+      "insights": {
+        "eyebrow": "Operations pulse",
+        "title": "What the current view is telling you",
+        "desc": "A quick read on fulfillment flow, payment health, and the average order size for the active filter.",
+        "avgOrder": "Average order",
+        "avgOrderDesc": "Average basket value in the current selection",
+        "fulfillment": "Delivered rate",
+        "fulfillmentDesc": "Share of visible orders that reached delivery",
+        "statusTitle": "Fulfillment mix",
+        "statusDesc": "Spot bottlenecks across the order pipeline.",
+        "paymentTitle": "Payment mix",
+        "paymentDesc": "Track payment completion and exception states."
+      },
+      "queue": {
+        "eyebrow": "Priority queue",
+        "title": "Orders that need attention",
+        "desc": "Focus here first when you need to move pending or unpaid orders forward.",
+        "badge": "{count} need attention",
+        "emptyTitle": "No priority orders",
+        "emptyDesc": "The current view has no pending or unpaid orders that need action."
+      },
+      "filters": {
+        "eyebrow": "Controls",
+        "title": "Refine the order stream",
+        "desc": "Filter by timeframe, search by customer or order ID, and focus on a fulfillment status.",
+        "currentView": "Current view",
+        "searchLabel": "Search orders",
+        "searchPlaceholder": "Search by order ID, customer, or phone",
+        "timeLabel": "Time range",
+        "allTime": "All time",
+        "today": "Today",
+        "last7Days": "Last 7 days",
+        "last30Days": "Last 30 days",
+        "thisMonth": "This month",
+        "statusLabel": "Status",
+        "statusAll": "All orders"
+      },
+      "table": {
+        "title": "Order management",
+        "subtitle": "{count} order(s) matched",
+        "sorted": "Newest first",
+        "itemsCount": "{count} item(s)",
+        "columns": {
+          "order": "Order",
+          "customer": "Customer",
+          "total": "Total",
+          "payment": "Payment",
+          "actions": "Actions"
+        }
+      },
+      "order": {
+        "orderNumber": "Order",
+        "customer": "Customer",
+        "phone": "Phone",
+        "city": "City",
+        "paymentMethod": "Payment method",
+        "notes": "Notes",
+        "itemsCount": "Items count"
+      },
+      "status": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled"
+      },
+      "payment": {
+        "pending": "Pending",
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "failed": "Failed",
+        "refunded": "Refunded"
+      },
+      "fallback": {
+        "na": "N/A",
+        "noNotes": "No notes",
+        "noProducts": "No products"
+      },
+      "empty": {
+        "title": "No orders matched",
+        "desc": "Adjust the search or filters to see more orders."
+      }
+    },
+    "products": {
+      "eyebrow": "Catalog operations",
+      "title": "Products Management",
+      "desc": "Update the storefront assortment, monitor stock, and keep pricing and merchandising in sync.",
+      "metrics": {
+        "total": "Products",
+        "totalDesc": "Items currently in the catalog",
+        "inStock": "In Stock",
+        "inStockDesc": "Products ready for purchase",
+        "lowStock": "Low Stock",
+        "lowStockDesc": "Products that need attention soon",
+        "discounted": "Discounted",
+        "discountedDesc": "Products with active markdowns"
+      },
+      "filters": {
+        "eyebrow": "Catalog controls",
+        "title": "Filter and organize products",
+        "desc": "Search by title or description and narrow the list by collection.",
+        "summary": "{count} product(s) visible",
+        "searchLabel": "Search products",
+        "searchPlaceholder": "Search by product title or description",
+        "categoryLabel": "Category",
+        "categoryAll": "All categories"
+      },
+      "table": {
+        "title": "Product inventory",
+        "subtitle": "{count} product(s) matched",
+        "live": "Live catalog",
+        "stockCount": "{count} in stock",
+        "columns": {
+          "product": "Product",
+          "inventory": "Inventory",
+          "price": "Price",
+          "actions": "Actions"
+        }
+      },
+      "stock": {
+        "in": "In stock",
+        "low": "Low stock",
+        "out": "Out of stock"
+      },
+      "empty": {
+        "title": "No products found",
+        "desc": "Try a different search term or reset the category filter."
+      },
+      "actions": {
+        "add": "Add Product",
+        "edit": "Edit",
+        "delete": "Delete",
+        "view": "View",
+        "save": "Save Changes",
+        "cancel": "Cancel",
+        "reset": "Reset"
+      },
+      "modal": {
+        "addTitle": "Add Product",
+        "editTitle": "Edit Product",
+        "desc": "Use the form below to create or update a catalog entry."
+      },
+      "form": {
+        "title": "Title",
+        "titlePlaceholder": "Premium bath towel set",
+        "price": "Price",
+        "pricePlaceholder": "0",
+        "category": "Category",
+        "stock": "Stock Quantity",
+        "stockPlaceholder": "0",
+        "discount": "Discount %",
+        "discountPlaceholder": "0",
+        "image": "Product Image",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe the material, finish, and ideal use.",
+        "preview": "Product preview"
+      },
+      "delete": {
+        "title": "Delete product",
+        "desc": "Are you sure you want to remove {title} from the catalog?"
+      },
+      "states": {
+        "saving": "Saving..."
+      },
+      "toast": {
+        "createdTitle": "Product created",
+        "createdDesc": "The new product is now available in the catalog.",
+        "updatedTitle": "Product updated",
+        "updatedDesc": "Changes were saved successfully.",
+        "deletedTitle": "Product deleted",
+        "deletedDesc": "The product was removed from the catalog."
+      }
     }
   }
 }

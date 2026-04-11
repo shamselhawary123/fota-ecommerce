@@ -27,7 +27,7 @@
               class="bg-white rounded-3xl shadow border border-gray-100 p-5 flex flex-col sm:flex-row gap-5 items-start sm:items-center"
             >
               <img
-                :src="item.image || 'https://picsum.photos/300/250'"
+                :src="item.image || '/images/products/towel-1.jpg'"
                 class="w-full sm:w-32 h-32 object-cover rounded-2xl"
               />
 

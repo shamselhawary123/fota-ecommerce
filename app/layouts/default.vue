@@ -1,8 +1,26 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
+  <div class="ui-app-shell flex min-h-screen flex-col">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+    >
+      <div
+        class="absolute inset-x-0 top-0 h-[28rem] bg-dot-grid opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent)]"
+      ></div>
+      <div
+        class="absolute left-[6%] top-10 h-72 w-72 rounded-full bg-brand-200/35 blur-3xl"
+      ></div>
+      <div
+        class="absolute right-[8%] top-32 h-80 w-80 rounded-full bg-accent-200/25 blur-3xl"
+      ></div>
+      <div
+        class="absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-brand-100/25 blur-3xl"
+      ></div>
+    </div>
+
     <Navbar />
 
-    <main class="flex-1 container mx-auto px-4 py-6">
+    <main class="relative flex-1">
       <slot />
     </main>
 
@@ -11,14 +29,12 @@
 </template>
 
 <script setup>
+import Footer from "~/components/Footer.vue";
+import Navbar from "~/components/Navbar.vue";
+
 const { locale } = useI18n();
 
 const dir = computed(() => (locale.value === "ar" ? "rtl" : "ltr"));
-
-const pageTransition = {
-  name: "page",
-  mode: "out-in",
-};
 
 useHead(() => ({
   htmlAttrs: {
@@ -27,21 +43,3 @@ useHead(() => ({
   },
 }));
 </script>
-
-<style>
-/* Smooth Page Transition */
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.35s ease;
-}
-
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(15px);
-}
-
-.page-leave-to {
-  opacity: 0;
-  transform: translateY(-15px);
-}
-</style>

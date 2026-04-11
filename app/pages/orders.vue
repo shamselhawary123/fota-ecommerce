@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100 py-8">
     <div class="max-w-7xl mx-auto px-4">
-      <!-- Header -->
       <div
         class="rounded-3xl bg-gradient-to-r from-black via-gray-900 to-gray-700 text-white p-8 shadow-lg mb-8"
       >
@@ -20,7 +19,6 @@
             :key="order.id"
             class="bg-white rounded-3xl shadow border border-gray-100 p-6 transition-all duration-300 hover:shadow-lg"
           >
-            <!-- Top -->
             <div
               class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5"
             >
@@ -34,14 +32,14 @@
                     class="inline-flex px-3 py-1 rounded-full text-sm font-medium"
                     :class="statusBadge(order.status)"
                   >
-                    {{ order.status }}
+                    {{ statusLabel(order.status) }}
                   </span>
 
                   <span
                     class="inline-flex px-3 py-1 rounded-full text-sm font-medium"
                     :class="paymentBadge(order.payment_status)"
                   >
-                    {{ order.payment_status }}
+                    {{ paymentLabel(order.payment_status) }}
                   </span>
                 </div>
 
@@ -53,7 +51,7 @@
                   {{
                     order.items
                       ?.map((item) => item.title || item.name)
-                      .join(" • ") || "No products"
+                      .join(" • ") || $t("orders.noProducts")
                   }}
                 </p>
               </div>
@@ -81,13 +79,11 @@
               </div>
             </div>
 
-            <!-- Expand -->
             <transition name="fade">
               <div
                 v-if="expandedOrder === order.id"
                 class="mt-6 border-t pt-5 space-y-6"
               >
-                <!-- Shipping + Payment -->
                 <div class="grid md:grid-cols-2 gap-4">
                   <div
                     class="bg-gray-50 rounded-2xl p-4 border border-gray-100"
@@ -98,34 +94,34 @@
 
                     <div class="space-y-2 text-sm text-gray-600">
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.name") }}:</span
-                        >
-                        {{ order.customer_name || "N/A" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.name") }}:
+                        </span>
+                        {{ order.customer_name || $t("orders.fallback.na") }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.phone") }}:</span
-                        >
-                        {{ order.phone || "N/A" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.phone") }}:
+                        </span>
+                        {{ order.phone || $t("orders.fallback.na") }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.city") }}:</span
-                        >
-                        {{ order.city || "N/A" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.city") }}:
+                        </span>
+                        {{ order.city || $t("orders.fallback.na") }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.address") }}:</span
-                        >
-                        {{ order.address || "N/A" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.address") }}:
+                        </span>
+                        {{ order.address || $t("orders.fallback.na") }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.notes") }}:</span
-                        >
-                        {{ order.notes || "No notes" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.notes") }}:
+                        </span>
+                        {{ order.notes || $t("orders.noNotes") }}
                       </p>
                     </div>
                   </div>
@@ -139,22 +135,25 @@
 
                     <div class="space-y-2 text-sm text-gray-600">
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.method") }}:</span
-                        >
-                        {{ order.payment_method || "N/A" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.method") }}:
+                        </span>
+                        {{ paymentMethodLabel(order.payment_method) }}
                       </p>
                       <p>
-                        <span class="font-medium text-gray-800"
-                          >{{ $t("orders.status") }}:</span
-                        >
-                        {{ order.payment_status || "N/A" }}
+                        <span class="font-medium text-gray-800">
+                          {{ $t("orders.status") }}:
+                        </span>
+                        {{
+                          order.payment_status
+                            ? paymentLabel(order.payment_status)
+                            : $t("orders.fallback.na")
+                        }}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <!-- Items -->
                 <div class="space-y-4">
                   <div
                     v-for="item in order.items"
@@ -163,8 +162,8 @@
                   >
                     <div class="flex items-center gap-4">
                       <img
-                        :src="item.image || 'https://picsum.photos/200/200'"
-                        alt="product"
+                        :src="item.image || '/images/products/towel-1.jpg'"
+                        :alt="$t('orders.productImageAlt')"
                         class="w-16 h-16 rounded-xl object-cover"
                       />
 
@@ -213,11 +212,12 @@ definePageMeta({
   middleware: "auth",
 });
 
-import { computed, ref, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useOrdersStore } from "~/stores/orders";
 import { useUserStore } from "~/stores/auth";
 
 const localePath = useLocalePath();
+const { t, locale } = useI18n();
 const ordersStore = useOrdersStore();
 const userStore = useUserStore();
 
@@ -234,11 +234,27 @@ const userOrders = computed(() => {
 });
 
 const formatDate = (date) => {
-  if (!date) return "N/A";
-  return new Date(date).toLocaleString("en-GB", {
+  if (!date) return t("orders.fallback.na");
+
+  return new Intl.DateTimeFormat(locale.value === "ar" ? "ar-EG" : "en-GB", {
     dateStyle: "medium",
     timeStyle: "short",
-  });
+  }).format(new Date(date));
+};
+
+const statusLabel = (status) => t(`orders.statuses.${status || "pending"}`);
+
+const paymentLabel = (status) =>
+  t(`orders.paymentStatuses.${status || "pending"}`);
+
+const paymentMethodLabel = (method) => {
+  if (!method) return t("orders.fallback.na");
+
+  const methods = {
+    cod: t("checkout.cod"),
+  };
+
+  return methods[method] || method;
 };
 
 const statusBadge = (status) => {
@@ -285,6 +301,7 @@ onMounted(async () => {
 .fade-leave-active {
   transition: all 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

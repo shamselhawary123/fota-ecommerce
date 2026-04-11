@@ -10,7 +10,7 @@
         <div class="relative hidden md:block">
           <img
             src="/images/products/towel-8.jpg"
-            alt="Register visual"
+            :alt="$t('register.visualAlt')"
             class="w-full h-full object-cover"
           />
 
@@ -275,6 +275,17 @@ const otp = ref("");
 const showPassword = ref(false);
 const error = ref(null);
 const success = ref(null);
+const { t } = useI18n();
+
+const getErrorMessage = (err) => {
+  const message = String(err?.message || "");
+
+  if (message.startsWith("auth.errors.")) {
+    return t(message);
+  }
+
+  return message;
+};
 
 const handleAvatarChange = (event) => {
   const file = event.target.files[0];
@@ -295,7 +306,7 @@ const handleSendOtp = async () => {
   success.value = null;
 
   if (!name.value || !email.value || !password.value) {
-    error.value = "Name, email and password are required.";
+    error.value = t("register.validation.required");
     return;
   }
 
@@ -316,10 +327,10 @@ const handleSendOtp = async () => {
       role: "user",
     });
 
-    success.value = "OTP sent successfully. Check your email.";
+    success.value = t("register.messages.otpSent");
     step.value = "verify";
   } catch (err) {
-    error.value = err.message;
+    error.value = getErrorMessage(err);
   }
 };
 
@@ -328,7 +339,7 @@ const handleVerifyOtp = async () => {
   success.value = null;
 
   if (!otp.value.trim()) {
-    error.value = "OTP code is required.";
+    error.value = t("register.validation.otpRequired");
     return;
   }
 
@@ -338,10 +349,10 @@ const handleVerifyOtp = async () => {
       token: otp.value,
     });
 
-    success.value = "Account created successfully! Redirecting...";
-    router.push("/");
+    success.value = t("register.messages.accountCreated");
+    router.push(localePath("/"));
   } catch (err) {
-    error.value = err.message;
+    error.value = getErrorMessage(err);
   }
 };
 
@@ -366,9 +377,9 @@ const handleResendOtp = async () => {
       role: "user",
     });
 
-    success.value = "A new OTP has been sent.";
+    success.value = t("register.messages.otpResent");
   } catch (err) {
-    error.value = err.message;
+    error.value = getErrorMessage(err);
   }
 };
 </script>

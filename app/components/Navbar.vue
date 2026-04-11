@@ -1,319 +1,345 @@
 <template>
-  <nav
-    class="sticky top-0 z-50 border-b border-white/10 bg-gray-600/90 backdrop-blur-xl text-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
+  <header
+    class="fixed top-0 left-0 w-full z-50 transition-transform duration-300 backdrop-blur-sm"
   >
-    <div class="container mx-auto px-4 py-3">
-      <div class="flex items-center justify-between">
-        <!-- Logo -->
-        <ClientOnly>
+    <AppContainer size="wide" :padded="false">
+      <div class="ui-panel relative overflow-hidden px-4 py-3 md:px-5">
+        <div
+          class="absolute inset-y-0 start-0 w-32 bg-gradient-to-r from-brand-50/70 to-transparent"
+        ></div>
+
+        <div class="relative flex items-center justify-between gap-4">
           <NuxtLink
-            v-if="authStore.user?.role === 'user' || !authStore.isLoggedIn"
-            to="/"
-            class="flex items-center gap-3 group"
+            :to="homeLink"
+            class="group flex min-w-0 items-center gap-3"
           >
             <div
-              class="h-12 w-12 rounded-2xl bg-white/10 border border-white/10 p-0 shadow-sm group-hover:bg-white/15 transition"
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/70 bg-white shadow-soft"
             >
               <img
                 src="/images/tt.png"
-                alt="Fota Store Logo"
-                class="max-w-full max-h-full object-contain rounded-xl"
+                :alt="t('navbar.logoAlt')"
+                class="h-10 w-10 object-contain"
               />
             </div>
 
-            <div class="hidden sm:block">
-              <p class="text-xl font-bold tracking-wide leading-none">
-                {{ t("navbar.brand.title") }}
+            <div class="min-w-0">
+              <p
+                class="truncate text-base font-semibold tracking-tight text-neutral-950 sm:text-lg"
+              >
+                {{ brandTitle }}
               </p>
-              <p class="text-xs text-gray-200 mt-1 tracking-[0.2em] uppercase">
-                {{ t("navbar.brand.subtitle") }}
+              <p
+                class="truncate text-[11px] font-semibold uppercase tracking-[0.24em] text-neutral-500"
+              >
+                {{ brandSubtitle }}
               </p>
             </div>
           </NuxtLink>
 
-          <NuxtLink
-            v-if="authStore.user?.role === 'admin'"
-            :to="localePath('/admin')"
-            class="flex items-center gap-3 group"
+          <nav
+            class="hidden items-center gap-1 rounded-full bg-surface-muted/70 p-1 lg:flex"
           >
-            <div
-              class="h-12 w-12 rounded-2xl bg-white/10 border border-white/10 p-0 shadow-sm group-hover:bg-white/15 transition"
-            >
-              <img
-                src="/images/tt.png"
-                alt="Fota Store Logo"
-                class="max-w-full max-h-full object-contain rounded-xl"
-              />
-            </div>
-
-            <div class="hidden sm:block">
-              <p class="text-xl font-bold tracking-wide leading-none">
-                {{ t("navbar.admin.title") }}
-              </p>
-              <p class="text-xs text-gray-200 mt-1 tracking-[0.2em] uppercase">
-                {{ t("navbar.admin.subtitle") }}
-              </p>
-            </div>
-          </NuxtLink>
-        </ClientOnly>
-
-        <!-- Desktop Links -->
-        <div class="hidden md:flex items-center gap-2">
-          <div class="flex gap-2">
             <NuxtLink
-              :to="switchLocalePath('en')"
-              class="px-3 py-1 rounded-full text-sm active:scale-95 transition"
-              :class="
-                locale === 'en'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              "
-            >
-              EN
-            </NuxtLink>
-
-            <NuxtLink
-              :to="switchLocalePath('ar')"
-              class="px-3 py-1 rounded-full text-sm active:scale-95 transition"
-              :class="
-                locale === 'ar'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              "
-            >
-              AR
-            </NuxtLink>
-          </div>
-          <ClientOnly>
-            <NuxtLink
-              v-if="authStore.user?.role !== 'admin'"
-              :to="localePath('/products')"
-              class="nav-link"
+              :to="productsLink"
+              :class="desktopLinkClasses(productsLink)"
             >
               {{ t("navbar.links.products") }}
             </NuxtLink>
 
             <NuxtLink
-              v-if="authStore.user?.role === 'admin'"
-              :to="localePath('/admin/products')"
-              class="nav-link"
+              :to="localePath('/about')"
+              :class="desktopLinkClasses(localePath('/about'))"
             >
-              {{ t("navbar.links.products") }}
+              {{ t("navbar.links.about") }}
             </NuxtLink>
-          </ClientOnly>
 
-          <NuxtLink :to="localePath('/about')" class="nav-link">
-            {{ t("navbar.links.about") }}
-          </NuxtLink>
-
-          <ClientOnly>
             <NuxtLink
-              v-if="authStore.user?.role !== 'admin'"
+              v-if="!isAdmin"
               :to="localePath('/cart')"
-              class="nav-link relative"
+              :class="desktopLinkClasses(localePath('/cart'))"
             >
               {{ t("navbar.links.cart") }}
-
-              <span
-                class="ms-2 inline-flex min-w-[24px] h-6 px-2 items-center justify-center text-white-800 text-xs font-bold"
-              >
-                {{ `( ${cartStore.totalItems} )` }}
-              </span>
+              <BaseBadge variant="primary" size="sm">
+                {{ cartItemsCount }}
+              </BaseBadge>
             </NuxtLink>
-          </ClientOnly>
+          </nav>
 
-          <ClientOnly>
-            <template v-if="authStore.isLoggedIn">
-              <NuxtLink :to="localePath('/profile')" class="nav-link">
+          <div class="hidden items-center gap-2 md:flex">
+            <div
+              class="flex items-center gap-1 rounded-full bg-surface-muted/70 p-1"
+            >
+              <NuxtLink
+                :to="switchLocalePath('en')"
+                :class="localeButtonClasses('en')"
+              >
+                EN
+              </NuxtLink>
+              <NuxtLink
+                :to="switchLocalePath('ar')"
+                :class="localeButtonClasses('ar')"
+              >
+                AR
+              </NuxtLink>
+            </div>
+
+            <template v-if="isLoggedIn">
+              <NuxtLink
+                :to="localePath('/profile')"
+                :class="desktopLinkClasses(localePath('/profile'))"
+              >
                 {{ t("navbar.links.profile") }}
               </NuxtLink>
-
-              <button class="logout-btn" @click="authStore.logout()">
+              <BaseButton variant="ghost" @click="handleLogout">
                 {{ t("navbar.links.logout") }}
-              </button>
+              </BaseButton>
             </template>
 
             <template v-else>
-              <NuxtLink :to="localePath('/auth/login')" class="nav-link">
+              <BaseButton variant="ghost" :to="localePath('/auth/login')">
                 {{ t("navbar.links.login") }}
-              </NuxtLink>
-
-              <NuxtLink :to="localePath('/auth/register')" class="primary-btn">
+              </BaseButton>
+              <BaseButton :to="localePath('/auth/register')">
                 {{ t("navbar.links.register") }}
-              </NuxtLink>
+              </BaseButton>
             </template>
-          </ClientOnly>
-        </div>
-
-        <!-- Mobile Button -->
-        <button
-          @click="isMenuOpen = !isMenuOpen"
-          class="md:hidden h-11 w-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center hover:bg-white/15 transition"
-        >
-          <div class="flex flex-col gap-1.5">
-            <span class="w-5 h-0.5 bg-white rounded"></span>
-            <span class="w-5 h-0.5 bg-white rounded"></span>
-            <span class="w-5 h-0.5 bg-white rounded"></span>
           </div>
-        </button>
-      </div>
-    </div>
 
-    <!-- Mobile Overlay -->
-    <transition name="fade">
+          <BaseButton
+            variant="outline"
+            size="sm"
+            class="md:hidden !min-h-11 !w-11 !px-0"
+            :aria-expanded="isMenuOpen ? 'true' : 'false'"
+            :aria-label="t('navbar.toggle')"
+            @click="isMenuOpen = !isMenuOpen"
+          >
+            <template #leading>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                class="h-5 w-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 7h16M4 12h16M4 17h16"
+                />
+              </svg>
+            </template>
+          </BaseButton>
+        </div>
+      </div>
+    </AppContainer>
+
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
       <div
         v-if="isMenuOpen"
-        class="fixed inset-0 z-40 bg-black/40 md:hidden"
+        class="fixed inset-0 z-[55] bg-brand-950/35 backdrop-blur-sm md:hidden"
         @click="isMenuOpen = false"
       ></div>
     </transition>
 
-    <!-- Mobile Menu -->
-    <transition name="slide-down">
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="translate-x-full opacity-0"
+      enter-to-class="translate-x-0 opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="translate-x-0 opacity-100"
+      leave-to-class="translate-x-full opacity-0"
+    >
       <div
         v-if="isMenuOpen"
-        class="absolute top-full left-0 w-full bg-gray-600/95 backdrop-blur-xl text-white shadow-2xl rounded-b-3xl md:hidden z-50 border-t border-white/10"
+        class="fixed inset-y-3 end-3 z-[60] flex w-[min(90vw,24rem)] flex-col rounded-4xl border border-white/70 bg-white/95 p-5 shadow-floating backdrop-blur-xl md:hidden"
       >
-        <div class="px-5 py-5 flex flex-col gap-3">
-          <ClientOnly>
-            <NuxtLink
-              v-if="authStore.user?.role !== 'admin'"
-              :to="localePath('/products')"
-              class="mobile-link"
-              @click="isMenuOpen = false"
-            >
-              {{ t("navbar.links.products") }}
-            </NuxtLink>
+        <div
+          class="flex items-center justify-between gap-4 border-b border-neutral-200/80 pb-4"
+        >
+          <div>
+            <p class="text-base font-semibold tracking-tight text-neutral-950">
+              {{ brandTitle }}
+            </p>
+            <p class="text-xs uppercase tracking-[0.24em] text-neutral-500">
+              {{ brandSubtitle }}
+            </p>
+          </div>
 
-            <NuxtLink
-              v-if="authStore.user?.role === 'admin'"
-              :to="localePath('/admin/products')"
-              class="mobile-link"
-              @click="isMenuOpen = false"
-            >
-              {{ t("navbar.links.products") }}
-            </NuxtLink>
-          </ClientOnly>
+          <BaseButton
+            variant="outline"
+            size="sm"
+            class="!min-h-10 !w-10 !px-0"
+            :aria-label="t('navbar.close')"
+            @click="isMenuOpen = false"
+          >
+            <template #leading>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                class="h-4 w-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </template>
+          </BaseButton>
+        </div>
+
+        <div
+          class="mt-5 flex items-center gap-1 rounded-full bg-surface-muted/80 p-1"
+        >
+          <NuxtLink
+            :to="switchLocalePath('en')"
+            :class="localeButtonClasses('en')"
+          >
+            EN
+          </NuxtLink>
+          <NuxtLink
+            :to="switchLocalePath('ar')"
+            :class="localeButtonClasses('ar')"
+          >
+            AR
+          </NuxtLink>
+        </div>
+
+        <nav class="mt-6 flex flex-1 flex-col gap-2">
+          <NuxtLink :to="productsLink" :class="mobileLinkClasses(productsLink)">
+            {{ t("navbar.links.products") }}
+          </NuxtLink>
 
           <NuxtLink
             :to="localePath('/about')"
-            class="mobile-link"
-            @click="isMenuOpen = false"
+            :class="mobileLinkClasses(localePath('/about'))"
           >
             {{ t("navbar.links.about") }}
           </NuxtLink>
+        </nav>
 
-          <ClientOnly>
-            <NuxtLink
-              v-if="authStore.user?.role !== 'admin'"
-              :to="localePath('/cart')"
-              class="mobile-link"
-              @click="isMenuOpen = false"
-            >
-              {{ t("navbar.links.cart") }} ({{ cartStore.totalItems }})
-            </NuxtLink>
-          </ClientOnly>
+        <div class="mt-6 grid gap-3 border-t border-neutral-200/80 pt-5">
+          <NuxtLink
+            v-if="!isAdmin"
+            :to="localePath('/cart')"
+            :class="mobileLinkClasses(localePath('/cart'))"
+          >
+            <span>{{ t("navbar.links.cart") }}</span>
+            <BaseBadge variant="primary" size="sm">
+              {{ cartItemsCount }}
+            </BaseBadge>
+          </NuxtLink>
 
-          <ClientOnly>
-            <template v-if="authStore.isLoggedIn">
-              <NuxtLink
-                :to="localePath('/profile')"
-                class="mobile-link"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.links.profile") }}
-              </NuxtLink>
+          <template v-if="isLoggedIn">
+            <BaseButton variant="outline" block :to="localePath('/profile')">
+              {{ t("navbar.links.profile") }}
+            </BaseButton>
+            <BaseButton variant="danger" block @click="handleLogout">
+              {{ t("navbar.links.logout") }}
+            </BaseButton>
+          </template>
 
-              <button
-                class="mobile-logout"
-                @click="
-                  authStore.logout();
-                  isMenuOpen = false;
-                "
-              >
-                {{ t("navbar.links.logout") }}
-              </button>
-            </template>
+          <template v-else>
+            <BaseButton variant="outline" block :to="localePath('/auth/login')">
+              {{ t("navbar.links.login") }}
+            </BaseButton>
 
-            <template v-else>
-              <NuxtLink
-                :to="localePath('/auth/login')"
-                class="mobile-link"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.links.login") }}
-              </NuxtLink>
-
-              <NuxtLink
-                :to="localePath('/auth/register')"
-                class="mobile-primary"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.links.register") }}
-              </NuxtLink>
-            </template>
-          </ClientOnly>
+            <BaseButton block :to="localePath('/auth/register')">
+              {{ t("navbar.links.register") }}
+            </BaseButton>
+          </template>
         </div>
       </div>
     </transition>
-  </nav>
+  </header>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import AppContainer from "~/components/ui/AppContainer.vue";
+import BaseBadge from "~/components/ui/BaseBadge.vue";
+import BaseButton from "~/components/ui/BaseButton.vue";
+import { useRoute } from "vue-router";
 import { useCartStore } from "~/stores/cart";
 import { useUserStore } from "~/stores/auth";
 
 const authStore = useUserStore();
 const cartStore = useCartStore();
 const isMenuOpen = ref(false);
+const hydrated = ref(false);
+const route = useRoute();
 const switchLocalePath = useSwitchLocalePath();
-
 const localePath = useLocalePath();
 const { locale, t } = useI18n();
+
+const isLoggedIn = computed(() => hydrated.value && authStore.isLoggedIn);
+const isAdmin = computed(
+  () => hydrated.value && authStore.user?.role === "admin",
+);
+const cartItemsCount = computed(() =>
+  hydrated.value && !isAdmin.value ? cartStore.totalItems : 0,
+);
+
+const homeLink = computed(() => localePath(isAdmin.value ? "/admin" : "/"));
+const productsLink = computed(() =>
+  localePath(isAdmin.value ? "/admin/products" : "/products"),
+);
+const brandTitle = computed(() =>
+  isAdmin.value ? t("navbar.admin.title") : t("navbar.brand.title"),
+);
+const brandSubtitle = computed(() =>
+  isAdmin.value ? t("navbar.admin.subtitle") : t("navbar.brand.subtitle"),
+);
+
+const isActiveRoute = (path) =>
+  route.path === path || route.path.startsWith(`${path}/`);
+
+const desktopLinkClasses = (path) => [
+  "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition",
+  isActiveRoute(path)
+    ? "bg-white text-neutral-950 shadow-soft"
+    : "text-neutral-600 hover:bg-white/70 hover:text-neutral-950",
+];
+
+const mobileLinkClasses = (path) => [
+  "flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-medium transition",
+  isActiveRoute(path)
+    ? "border-brand-100 bg-brand-50 text-brand-700"
+    : "border-neutral-200 bg-surface-muted/70 text-neutral-700 hover:bg-white",
+];
+
+const localeButtonClasses = (code) => [
+  "inline-flex min-w-[3rem] items-center justify-center rounded-full px-3 py-2 text-xs font-semibold tracking-[0.22em] transition",
+  locale.value === code
+    ? "bg-brand-900 text-white shadow-soft"
+    : "text-neutral-500 hover:bg-white hover:text-neutral-950",
+];
+
+const handleLogout = async () => {
+  isMenuOpen.value = false;
+  await authStore.logout();
+};
+
+onMounted(() => {
+  hydrated.value = true;
+});
+
+watch(
+  () => route.fullPath,
+  () => {
+    isMenuOpen.value = false;
+  },
+);
 </script>
-
-<style scoped>
-.nav-link {
-  @apply px-4 py-2.5 rounded-xl text-sm font-medium text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300;
-}
-
-.primary-btn {
-  @apply px-5 py-2.5 rounded-xl text-sm font-semibold bg-white text-gray-800 hover:bg-gray-100 transition-all duration-300 shadow-sm;
-}
-
-.logout-btn {
-  @apply px-4 py-2.5 rounded-xl text-sm font-medium text-red-100 hover:text-white hover:bg-red-500/20 transition-all duration-300;
-}
-
-.mobile-link {
-  @apply px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300;
-}
-
-.mobile-primary {
-  @apply px-4 py-3 rounded-2xl bg-white text-gray-800 font-semibold text-center hover:bg-gray-100 transition-all duration-300;
-}
-
-.mobile-logout {
-  @apply px-4 py-3 rounded-2xl bg-red-500/15 border border-red-300/10 text-red-100 text-start hover:bg-red-500/25 hover:text-white transition-all duration-300;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.25s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.slide-down-enter-active,
-.slide-down-leave-active {
-  transition: all 0.28s ease;
-}
-.slide-down-enter-from,
-.slide-down-leave-to {
-  opacity: 0;
-  transform: translateY(-12px);
-}
-</style>

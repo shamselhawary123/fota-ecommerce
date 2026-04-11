@@ -10,7 +10,7 @@
         <div class="relative hidden md:block">
           <img
             src="/images/fota4.jpg"
-            alt="Login visual"
+            :alt="$t('login.visualAlt')"
             class="w-full h-full object-cover"
           />
 
@@ -134,12 +134,23 @@ const password = ref("");
 const error = ref(null);
 const showPassword = ref(false);
 const isLoading = ref(false);
+const { t } = useI18n();
+
+const getErrorMessage = (err) => {
+  const message = String(err?.message || "");
+
+  if (message.startsWith("auth.errors.")) {
+    return t(message);
+  }
+
+  return message;
+};
 
 const handleLogin = async () => {
   error.value = null;
 
   if (!email.value || !password.value) {
-    error.value = "Email and password are required.";
+    error.value = t("login.validation.required");
     return;
   }
 
@@ -149,9 +160,9 @@ const handleLogin = async () => {
       email: email.value,
       password: password.value,
     });
-    router.push("/");
+    router.push(localePath("/"));
   } catch (err) {
-    error.value = err.message;
+    error.value = getErrorMessage(err);
   } finally {
     isLoading.value = false;
   }

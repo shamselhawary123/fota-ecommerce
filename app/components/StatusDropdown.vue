@@ -3,12 +3,12 @@
     <button
       type="button"
       @click="isOpen = !isOpen"
-      class="w-full bg-gray-50 border border-gray-200 text-gray-700 px-4 py-3 rounded-2xl text-sm font-medium shadow-sm transition-all duration-300 ease-in-out hover:bg-gray-100 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-between"
+      class="flex min-h-11 w-full items-center justify-between rounded-3xl border border-neutral-200 bg-white px-4 py-3 text-sm font-medium text-neutral-700 shadow-soft transition duration-200 hover:border-neutral-300 hover:bg-neutral-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
     >
       <span>{{ selectedLabel }}</span>
 
       <svg
-        class="w-4 h-4 text-gray-500 transition-transform duration-300"
+        class="h-4 w-4 text-neutral-400 transition-transform duration-300"
         :class="{ 'rotate-180': isOpen }"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -27,18 +27,18 @@
     <transition name="dropdown">
       <div
         v-if="isOpen"
-        class="absolute z-50 mt-2 w-full rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden"
+        class="absolute z-50 mt-2 w-full overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-floating"
       >
         <button
           v-for="option in options"
           :key="option.value"
           type="button"
           @click="selectOption(option.value)"
-          class="w-full text-start px-4 py-3 text-sm transition-colors duration-200"
+          class="w-full px-4 py-3 text-start text-sm transition duration-200"
           :class="
             modelValue === option.value
-              ? 'bg-gray-100 text-black font-medium'
-              : 'text-gray-600 hover:bg-gray-50 hover:text-black'
+              ? 'bg-brand-50 font-medium text-brand-900'
+              : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-950'
           "
         >
           {{ option.label }}
@@ -60,6 +60,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  placeholder: {
+    type: String,
+    default: "",
+  },
 });
 
 const emit = defineEmits(["update:modelValue", "change"]);
@@ -70,7 +74,7 @@ const dropdownRef = ref(null);
 const selectedLabel = computed(() => {
   return (
     props.options.find((option) => option.value === props.modelValue)?.label ||
-    "Select"
+    props.placeholder
   );
 });
 

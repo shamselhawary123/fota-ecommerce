@@ -121,8 +121,8 @@
             >
               <div class="flex items-center gap-3 min-w-0">
                 <img
-                  :src="item.image || 'https://picsum.photos/200/200'"
-                  alt="product"
+                  :src="item.image || '/images/products/towel-1.jpg'"
+                  :alt="t('checkout.productImageAlt')"
                   class="w-14 h-14 rounded-xl object-cover"
                 />
 
@@ -147,7 +147,7 @@
                       >
                         {{
                           getDiscountPercent(item.originalPrice, item.price)
-                        }}% OFF
+                        }}% {{ t("productCard.discount.off") }}
                       </span>
                     </div>
                   </template>
@@ -225,6 +225,7 @@ import { useProductsStore } from "~/stores/products";
 import { useUserStore } from "~/stores/auth";
 import { ref, onMounted } from "vue";
 
+const localePath = useLocalePath();
 const cartStore = useCartStore();
 const ordersStore = useOrdersStore();
 const productsStore = useProductsStore();
@@ -246,7 +247,7 @@ const checkoutForm = ref({
 
 onMounted(async () => {
   if (cartStore.currentUserCart.length === 0) {
-    navigateTo("/cart");
+    navigateTo(localePath("/cart"));
     return;
   }
 
@@ -259,22 +260,22 @@ onMounted(async () => {
 
 const validateForm = () => {
   if (!checkoutForm.value.customerName.trim()) {
-    formError.value = "Full name is required.";
+    formError.value = t("checkout.validation.fullName");
     return false;
   }
 
   if (!checkoutForm.value.phone.trim()) {
-    formError.value = "Phone number is required.";
+    formError.value = t("checkout.validation.phone");
     return false;
   }
 
   if (!checkoutForm.value.address.trim()) {
-    formError.value = "Address is required.";
+    formError.value = t("checkout.validation.address");
     return false;
   }
 
   if (!checkoutForm.value.city.trim()) {
-    formError.value = "City is required.";
+    formError.value = t("checkout.validation.city");
     return false;
   }
 
@@ -317,7 +318,7 @@ const handleConfirm = async () => {
   isSuccess.value = true;
 
   setTimeout(() => {
-    navigateTo("/orders");
+    navigateTo(localePath("/orders"));
   }, 1500);
 };
 </script>

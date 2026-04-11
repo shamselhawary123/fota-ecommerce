@@ -1,13 +1,35 @@
 <template>
   <div>
-    <NuxtLoadingIndicator color="#111827" :height="3" />
+    <NuxtLoadingIndicator color="#1e2f49" :height="3" />
 
-    <transition name="fade">
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
       <div
-        v-if="isLangLoading"
-        class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center"
+        v-if="showGlobalLoading"
+        class="pointer-events-none fixed inset-0 z-[80] flex items-center justify-center bg-white/70 backdrop-blur-md"
       >
-        <div class="loader"></div>
+        <div
+          class="pointer-events-auto ui-panel flex w-[min(90vw,18rem)] flex-col items-center gap-4 px-6 py-7 text-center"
+        >
+          <div
+            class="h-11 w-11 animate-spin rounded-full border-[3px] border-brand-100 border-t-brand-700"
+          ></div>
+
+          <div class="space-y-1">
+            <p class="text-sm font-semibold tracking-tight text-neutral-900">
+              Fota Store
+            </p>
+            <p class="text-sm text-neutral-500">
+              {{ locale.toUpperCase() }}
+            </p>
+          </div>
+        </div>
       </div>
     </transition>
 
@@ -18,69 +40,46 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useUserStore } from "~/stores/auth";
 
 const userStore = useUserStore();
+const nuxtApp = useNuxtApp();
 const { locale } = useI18n();
 
 const isLangLoading = ref(false);
+const isRouteLoading = ref(false);
+let localeLoadingTimer = null;
 
 const pageTransition = {
-  name: "page",
+  name: "ui-page",
   mode: "out-in",
 };
 
-watch(locale, async () => {
-  isLangLoading.value = true;
+const showGlobalLoading = computed(
+  () => isLangLoading.value || isRouteLoading.value,
+);
 
-  setTimeout(() => {
+watch(locale, () => {
+  if (!import.meta.client) return;
+
+  isLangLoading.value = true;
+  clearTimeout(localeLoadingTimer);
+  localeLoadingTimer = window.setTimeout(() => {
     isLangLoading.value = false;
-  }, 500);
+  }, 260);
+});
+
+nuxtApp.hook("page:start", () => {
+  isRouteLoading.value = true;
+});
+
+nuxtApp.hook("page:finish", () => {
+  isRouteLoading.value = false;
 });
 
 onMounted(async () => {
+  isRouteLoading.value = false;
   await userStore.loadUser();
 });
 </script>
-
-<style>
-.loader {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #ddd;
-  border-top-color: black;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.3s ease;
-}
-
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.page-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>
